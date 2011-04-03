@@ -25,6 +25,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -32,7 +33,7 @@
 \use_esint 1
 \use_mhchem 1
 \use_mathdots 1
-\cite_engine basic
+\cite_engine natbib_authoryear
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -69,7 +70,7 @@ Bryan Matsuo and John St.
 \end_layout
 
 \begin_layout Enumerate
-holder
+Version spaces:
 \end_layout
 
 \begin_deeper
@@ -91,13 +92,116 @@ Any new point may either be grouped with positive instances, or negative
  are each in a single group (or the null group if none have been observed).
  Thus there are two possible groupings of the remaining point, with the
  rest of the positives (possibly the null group of positives) or the rest
- of the negatives (possibly the null group of negatives), and thus half
- of the version space predicts one way or the other.
+ of the negatives (possibly the null group of negatives), and thus exactly
+ half (1 out of 2) of the version space predicts each outcome.
 \end_layout
 
 \end_deeper
 \begin_layout Enumerate
-question 2
+Learning disjunctions:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+A general hypothesis is one that assumes that any unobserved point that
+ could consistently be classified as a positive case, is classified that
+ way.
+ In the base case this will classify all points as positive.
+ Any observed positive example will not change our general hypothesis space.
+ However a negative example will force us to prune away instance assignments
+ from our general hypothesis.
+ See Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Alg:prune"
+
+\end_inset
+
+ for the pseudocode.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Prune(
+\begin_inset Formula $X$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Alg:prune"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Starting Global General Hypothesis: 
+\begin_inset Formula $a_{1}=0\vee a_{1}=1\vee\ldots\vee a_{n}=0\vee a_{n}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+if 
+\begin_inset Formula $X\in\{-\}$
+\end_inset
+
+: Remove all assigned instances of 
+\begin_inset Formula $X$
+\end_inset
+
+ from Hypothesis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+No the most specific hypothesis in this case is not well defined.
+ The general algorithm for this would be to ignore negative instances, and
+ for each positive ovservation insert the minimal set of instance assignments
+ that properly classifies the set of positive observations.
+ Consider a simple case with one positive observation that has a set of
+ two instance assignments 
+\begin_inset Formula $\left\{ a_{1}=1,a_{2}=0\right\} $
+\end_inset
+
+.
+ In this case we have two equally good specific hypotheses, 
+\begin_inset Formula $h_{1}=\left[a_{1}=1\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $h_{2}=\left[a_{2}=1\right]$
+\end_inset
+
+.
+ By definition this is not well defined.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+VC Dimension (242 version):
+\end_layout
+
+\begin_layout Enumerate
+Weka:
 \end_layout
 
 \end_body
