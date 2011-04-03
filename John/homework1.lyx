@@ -183,12 +183,16 @@ No the most specific hypothesis in this case is not well defined.
 \end_inset
 
 .
- In this case we have two equally good specific hypotheses, 
+ In this case we have three equally good specific hypotheses, 
 \begin_inset Formula $h_{1}=\left[a_{1}=1\right]$
 \end_inset
 
- and 
-\begin_inset Formula $h_{2}=\left[a_{2}=1\right]$
+ , 
+\begin_inset Formula $h_{2}=\left[a_{2}=0\right]$
+\end_inset
+
+, and 
+\begin_inset Formula $h_{3}=\left[a_{1}=1\vee a_{2}=0\right]$
 \end_inset
 
 .
@@ -204,5 +208,41 @@ VC Dimension (242 version):
 Weka:
 \end_layout
 
+\begin_deeper
+\begin_layout Enumerate
+To seperate out Iris-setosa from the other classes, there is one attribute,
+ peta-length, that looks like it results in perfect seperation by itself
+ from examining the histogram.
+\end_layout
+
+\begin_layout Enumerate
+The trimmed tree also has the petal-length atribute as the top node of the
+ decision tree.
+ This is a good sign.
+\end_layout
+
+\begin_layout Enumerate
+It looks like petal length or petal width are enough in 1 dimention to seperate
+ out Iris-setosa from the others with high confidence.
+ This can be clearly seen in the histogram for petal-length, but the seperation
+ is a little too close to see the clear divide on the histogram for petal-width.
+ Choosing a smaller bin size for the petal-width histogram would solve this
+ problem, and it is obvious when examining the points under the visualize
+ tab.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Side note: Seperating the remaining two classes of irises does not look
+ possible with a single dimension.
+ In 2d petal-length to petal-width looks like its enough to seperate out
+ all three classes in the majority of cases with possibly a few false positives.
+ Indeed the J48 decision tree found a fine grained descriminating set of
+ rules that are only dependent on those two variables with around a 2% FP
+ rate.
+\end_layout
+
+\end_deeper
+\end_deeper
 \end_body
 \end_document
