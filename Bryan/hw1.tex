@@ -23,13 +23,18 @@
 %\begin{multicols}{2}
 \section*{1 Version spaces}
 \subsection*{1(a)}
+There is no inductive bias in the hypothesis class. The hypotheses predicting a new instance are unconstrained by the previously seen instances.
 \subsection*{1(b)}
+Let $V_m$ be the version space after seeing $m$ different (noise-free) labeled examples $x_1, \dots, x_m$. For an unseen instance $x_{m+1}$, exactly half of the version space predicts ``$+$'', and half the version space predects ``$-$'' as a label for $x_{m+1}$.
 
-\section{Learning disjunctions}
+\begin{proof}
+    After seeing $m$ instances and their labels, the set of consistent hypothesis is the set of all labelings for the elements of $X$ that are consistent with the first $m$ instances seen. Since the labelings of the $n-m$ unseen instances are unconstrained by the seen ones, for a given element of $X$ that has not yet been seen there are exactly $2^{n-m-1}$ hypothesis labeling the element ``$+$'', and the same number labeling the element ``$-$''.
+\end{proof}
+
+\section*{2 Learning disjunctions}
 
 
-
-\section{VC dimension}
+\section*{3 VC dimension}
 
 Consider the hypothesis class of homogeneous half-spaces in $\mathcal{R}^d$ where the instance vectors are in $\mathcal{R}^d$ and the hypothesis class $H$ is the set of all $h_w$ having the form $h_w(x) = +1$ if $w \cdot x > 0$, and $-1$ otherwise.
 Determine the VC-dimension of homogeneous half-spaces in $\mathcal{R}^d$ as a function of $d$.
@@ -45,7 +50,7 @@ This solution will make use of the following proposition provided as a hint.
 \end{lemma}
 
 \begin{proof}
-    Consider the set of instances $X_d = {e_1, e_2, \dots, e_d}$ where $e_i$ is the standard $i$-th basis vector in $\mathcal{R}^d$ (component $i$ of vector $e_i$ is $1$ and the rest are $0$).
+    Consider the set of instances $X_d = \{e_1, e_2, \dots, e_d\}$ where $e_i$ is the standard $i$-th basis vector in $\mathcal{R}^d$ (component $i$ of vector $e_i$ is $1$ and the rest are $0$).
     Let $\ell_1, \dots, \ell_d \in \{-1,+1\}$ be a labeling of $X_d$ where $e_i$ recieves label $\ell_i$.
 
     Consider the vector $w = (\ell_1, \dots, \ell_d)$.
@@ -98,7 +103,7 @@ This solution will make use of the following proposition provided as a hint.
 \end{proof}
 
 
-\section{Computer exercize with Weka}
+\section*{4 Computer exercize with Weka}
 
 % Add a bibliography.
 %\bibliographystyle{apalike}
