@@ -1,0 +1,182 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+\usepackage{ latexsym }
+\usepackage{ amsmath }
+\usepackage{ amsthm }
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+\title{Homework 1: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo \& John St. John} %-- left and right positions in the header
+\begin{enumerate}
+\item \textbf{Version spaces: }
+
+\begin{enumerate}
+\item No the hypothesis space does not have an inductive bias. Since the
+hypothesis space contains every possible labeling of the points, viewing
+any subset of points will not give us information about the labeling
+of the remaining unobserved portion of points. A hypothesis class
+with an inductive bias is one that enables you to make assignments
+to unobserved points and thus learn from a subset of the data (page
+38 of our textbook).
+\item 
+Let $V_m$ be the version space after seeing $m$ different (noise-free) labeled examples $x_1, \dots, x_m$. For an unseen instance $x_{m+1}$, exactly half of the version space predicts ``$+$'', and half the version space predects ``$-$'' as a label for $x_{m+1}$.
+
+\begin{proof}
+    After seeing $m$ instances and their labels, the set of consistent hypothesis is the set of all labelings for the elements of $X$ that are consistent with the first $m$ instances seen. Since the labelings of the $n-m$ unseen instances are unconstrained by the seen ones, for a given element of $X$ that has not yet been seen there are exactly $2^{n-m-1}$ hypothesis labeling the element ``$+$'', and the same number labeling the element ``$-$''.
+\end{proof}
+
+\end{enumerate}
+\item \textbf{ Learning disjunctions: }
+
+\begin{enumerate}
+\item A general hypothesis is one that assumes that any unobserved point
+that could consistently be classified as a positive case, is classified
+that way. In the base case this will classify all points as positive.
+Any observed positive example will not change our general hypothesis
+space. However a negative example will force us to prune away instance
+assignments from our general hypothesis. See Algorithm~\ref{Alg:prune} for pseudo code.
+\begin{algorithm}
+\caption{Efficient training algorithm: prunes all instances in negative examples from the hypothesis. }
+\label{Alg:prune}
+\begin{algorithmic}
+\STATE $\mathcal{H} \gets a_1=0 \vee a_1=1 \vee \ldots \vee a_n=0 \vee a_n=1$
+\FORALL {$X \in \textnormal{Train}$}
+	\IF {$X \in F$}
+		\FORALL {$a_i=x\in X$}
+			\STATE $\mathcal{H} \gets \mathcal{H} \setminus \left\{a_i=x\right\}$
+		\ENDFOR
+	\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\item No the most specific hypothesis in this case is not well defined.
+The general algorithm for this would be to ignore negative instances,
+and for each positive observation insert the minimal set of instance
+assignments that properly classifies the set of positive observations.
+Consider a simple case with one positive observation that has a set
+of two instance assignments $\left\{ a_{1}=1,a_{2}=0\right\} $. In
+this case we have three equally good specific hypotheses, $h_{1}=\left[a_{1}=1\right]$
+, $h_{2}=\left[a_{2}=0\right]$, and $h_{3}=\left[a_{1}=1\vee a_{2}=0\right]$.
+By definition this is not well defined.
+\end{enumerate}
+
+
+\item \textbf{VC Dimension (242 version): }
+
+Consider the hypothesis class of homogeneous half-spaces in $\mathcal{R}^d$ where the instance vectors are in $\mathcal{R}^d$ and the hypothesis class $H$ is the set of all $h_w$ having the form $h_w(x) = +1$ if $w \cdot x > 0$, and $-1$ otherwise.
+Determine the VC-dimension of homogeneous half-spaces in $\mathcal{R}^d$ as a function of $d$.
+
+This solution will make use of the following proposition provided as a hint.
+\begin{proposition}
+    \label{prop:lin-comb}
+    For any set $S$ of $d+1$ points in $\mathcal{R}^d$, there is at least one point $x \in S$ that can be expressed as a linear combination of the other points in $S$.
+\end{proposition}
+
+\begin{lemma}
+    The VC-dimension of homogeneous half-spaces in $\mathcal{R}^d$ is at least $d$.
+\end{lemma}
+
+\begin{proof}
+    Consider the set of instances $X_d = \{e_1, e_2, \dots, e_d\}$ where $e_i$ is the standard $i$-th basis vector in $\mathcal{R}^d$ (component $i$ of vector $e_i$ is $1$ and the rest are $0$).
+    Let $y_1, \dots, y_d \in \{-1,+1\}$ be a labeling of $X_d$ where $e_i$ recieves label $y_i$.
+
+    Consider the vector $w = (y_1, \dots, y_d)$.
+    Notice that $w \cdot e_i = y_i$.
+    Thus, the hypothesis $h_w$ that predicts using vector $w$ will consistently predict all the labels of instances in $X_d$.
+
+    Due to the arbitrary labels on the instance set $X_d$, we can conclude that the hypothesis class $H$ shatters set $X_d$ and that the VC demension of the hypothesis class is at least $d$.
+\end{proof}
+
+\begin{lemma}
+    The VC-dimension of homogeneous half-spaces in $\mathcal{R}^d$ is at most $d$.
+\end{lemma}
+
+\begin{proof}
+    Let $V=(v_0, v_1, \dots, v_d)$ be any set of $d+1$ points in $\mathcal{R}^d$.
+    From proposition \ref{prop:lin-comb}, we know that there is a vector $v_k$ in $V$ which can be expressed as a linear combination of the other points in $V$.
+    Without loss of generality assume that $v_0$ can be expressed as a linear combination of $v_1, \dots, v_d$.
+    That is,
+    \[
+    v_0 = \sum_{i=1}^{d} a_i v_i
+    \].
+
+    Define a labeling $y_k$ of point $v_k \in V$ in the following way.
+    \[
+    y_k = \begin{cases}
+        +1  &  \text{if } k = 0   \\
+        -1  &  \text{if } a_k > 0 \\
+        +1  &  \text{if } a_k \leq 0 \\
+    \end{cases}
+    \].
+
+    Let $w$ be a vector in $\mathcal{R}^d$ and assume that hypothesis $h_w$ is consistent with the labels $y_1, \dots, y_d$.
+    Due to the construction of the labeling, this implies that $a_k (w \cdot v_k) \leq 0$ for $1 \leq k \leq d$.
+    Consider now the prediction that $h_w$ makes for instance $v_0$.
+    \begin{align*}
+        w \cdot v_0 &= w \cdot \bigg( \sum_{i=1}^{d} a_i v_i \bigg) \\
+            &= \sum_{i=1}^{d} a_i (w \cdot v_i) \\
+            &\leq 0
+    \end{align*}
+    But the label of $v_0$ is defined as $y_0 = +1$.
+    So no hypothesis $h_w$ can be consistent with the labeling $y_0, \dots, y_d$, and thus that the hypothesis class can not shatter the set instance set $V$.
+    Because $V$ is an arbitrary set of $d+1$ instances, we have thus shown that the VC-dimension of the hypothesis class is no more than $d$.
+\end{proof}
+
+\begin{lemma}
+    The VC-dimension of homogeneous half-spaces in $\mathcal{R}^d$ is $d$.
+\end{lemma}
+\begin{proof}
+    This is the direct result of combining the previous two lemmas.
+\end{proof}
+
+\item \textbf{Weka: }
+
+\begin{enumerate}
+\item To seperate out Iris-setosa from the other classes, there is one attribute,
+peta-length, that looks like it results in perfect seperation by itself
+from examining the histogram.
+\item The trimmed tree also has the petal-length atribute as the top node
+of the decision tree. This is a good sign.
+\item It looks like petal length or petal width are enough in 1 dimention
+to seperate out Iris-setosa from the others with high confidence.
+This can be clearly seen in the histogram for petal-length, but the
+seperation is a little too close to see the clear divide on the histogram
+for petal-width. Choosing a smaller bin size for the petal-width histogram
+would solve this problem, and it is obvious when examining the points
+under the visualize tab.
+
+\begin{enumerate}
+\item Side note: Seperating the remaining two classes of irises does not
+look possible with a single dimension. In 2d petal-length to petal-width
+looks like its enough to seperate out all three classes in the majority
+of cases with possibly a few false positives. Indeed the J48 decision
+tree found a fine grained descriminating set of rules that are only
+dependent on those two variables with around a 2\% FP rate.\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
