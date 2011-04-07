@@ -34,13 +34,7 @@
 \item \textbf{Version spaces: }
 
 \begin{enumerate}
-\item No the hypothesis space does not have an inductive bias. Since the
-hypothesis space contains every possible labeling of the points, viewing
-any subset of points will not give us information about the labeling
-of the remaining unobserved portion of points. A hypothesis class
-with an inductive bias is one that enables you to make assignments
-to unobserved points and thus learn from a subset of the data (page
-38 of our textbook).
+\item There is no inductive bias in the hypothesis class. The hypotheses predicting a new instance are unconstrained by the previously seen instances.
 \item 
 Let $V_m$ be the version space after seeing $m$ different (noise-free) labeled examples $x_1, \dots, x_m$. For an unseen instance $x_{m+1}$, exactly half of the version space predicts ``$+$'', and half the version space predects ``$-$'' as a label for $x_{m+1}$.
 
