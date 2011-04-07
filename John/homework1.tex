@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+\title{Homework 1: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo \& John St. John} %-- left and right positions in the header
+\begin{enumerate}
+\item Version spaces:
+
+\begin{enumerate}
+\item No the hypothesis space does not have an inductive bias. Since the
+hypothesis space contains every possible labeling of the points, viewing
+any subset of points will not give us information about the labeling
+of the remaining unobserved portion of points. A hypothesis class
+with an inductive bias is one that enables you to make assignments
+to unobserved points and thus learn from a subset of the data (page
+38 of our textbook).
+\item Any new point may either be grouped with positive instances, or negative
+instances. Since the hypothesis space contains every possible grouping
+of all points, it must also be the case that all existing positive
+and negative instances are each in a single group (or the null group
+if none have been observed). Thus there are two possible groupings
+of the remaining point, with the rest of the positives (possibly the
+null group of positives) or the rest of the negatives (possibly the
+null group of negatives), and thus exactly half (1 out of 2) of the
+version space predicts each outcome.
+\end{enumerate}
+\item Learning disjunctions:
+
+\begin{enumerate}
+\item A general hypothesis is one that assumes that any unobserved point
+that could consistently be classified as a positive case, is classified
+that way. In the base case this will classify all points as positive.
+Any observed positive example will not change our general hypothesis
+space. However a negative example will force us to prune away instance
+assignments from our general hypothesis. See Algorithm~\ref{Alg:prune} for pseudo code.
+\begin{algorithm}
+\caption{Efficient training algorithm: prunes all instances in negative examples from the hypothesis. }
+\label{Alg:prune}
+\begin{algorithmic}
+\STATE $\mathcal{H} \gets a_1=0 \vee a_1=1 \vee \ldots \vee a_n=0 \vee a_n=1$
+\FORALL {$X \in \textnormal{Train}$}
+	\IF {$X \in F$}
+		\STATE $\mathcal{H} \gets \mathcal{H} \setminus X$
+	\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\item No the most specific hypothesis in this case is not well defined.
+The general algorithm for this would be to ignore negative instances,
+and for each positive observation insert the minimal set of instance
+assignments that properly classifies the set of positive observations.
+Consider a simple case with one positive observation that has a set
+of two instance assignments $\left\{ a_{1}=1,a_{2}=0\right\} $. In
+this case we have three equally good specific hypotheses, $h_{1}=\left[a_{1}=1\right]$
+, $h_{2}=\left[a_{2}=0\right]$, and $h_{3}=\left[a_{1}=1\vee a_{2}=0\right]$.
+By definition this is not well defined.
+\end{enumerate}
+\item VC Dimension (242 version): 
+\item Weka:
+
+\begin{enumerate}
+\item To seperate out Iris-setosa from the other classes, there is one attribute,
+peta-length, that looks like it results in perfect seperation by itself
+from examining the histogram.
+\item The trimmed tree also has the petal-length atribute as the top node
+of the decision tree. This is a good sign.
+\item It looks like petal length or petal width are enough in 1 dimention
+to seperate out Iris-setosa from the others with high confidence.
+This can be clearly seen in the histogram for petal-length, but the
+seperation is a little too close to see the clear divide on the histogram
+for petal-width. Choosing a smaller bin size for the petal-width histogram
+would solve this problem, and it is obvious when examining the points
+under the visualize tab.
+
+\begin{enumerate}
+\item Side note: Seperating the remaining two classes of irises does not
+look possible with a single dimension. In 2d petal-length to petal-width
+looks like its enough to seperate out all three classes in the majority
+of cases with possibly a few false positives. Indeed the J48 decision
+tree found a fine grained descriminating set of rules that are only
+dependent on those two variables with around a 2\% FP rate.\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
