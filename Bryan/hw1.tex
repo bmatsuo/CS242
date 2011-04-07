@@ -51,10 +51,10 @@ This solution will make use of the following proposition provided as a hint.
 
 \begin{proof}
     Consider the set of instances $X_d = \{e_1, e_2, \dots, e_d\}$ where $e_i$ is the standard $i$-th basis vector in $\mathcal{R}^d$ (component $i$ of vector $e_i$ is $1$ and the rest are $0$).
-    Let $\ell_1, \dots, \ell_d \in \{-1,+1\}$ be a labeling of $X_d$ where $e_i$ recieves label $\ell_i$.
+    Let $y_1, \dots, y_d \in \{-1,+1\}$ be a labeling of $X_d$ where $e_i$ recieves label $y_i$.
 
-    Consider the vector $w = (\ell_1, \dots, \ell_d)$.
-    Notice that $w \cdot e_i = \ell_i$.
+    Consider the vector $w = (y_1, \dots, y_d)$.
+    Notice that $w \cdot e_i = y_i$.
     Thus, the hypothesis $h_w$ that predicts using vector $w$ will consistently predict all the labels of instances in $X_d$.
 
     Due to the arbitrary labels on the instance set $X_d$, we can conclude that the hypothesis class $H$ shatters set $X_d$ and that the VC demension of the hypothesis class is at least $d$.
@@ -73,16 +73,16 @@ This solution will make use of the following proposition provided as a hint.
     v_0 = \sum_{i=1}^{d} a_i v_i
     \].
 
-    Define a labeling $\ell_k$ of point $v_k \in V$ in the following way.
+    Define a labeling $y_k$ of point $v_k \in V$ in the following way.
     \[
-    \ell_k = \begin{cases}
+    y_k = \begin{cases}
         +1  &  \text{if } k = 0   \\
         -1  &  \text{if } a_k > 0 \\
         +1  &  \text{if } a_k \leq 0 \\
     \end{cases}
     \].
 
-    Let $w$ be a vector in $\mathcal{R}^d$ and assume that hypothesis $h_w$ is consistent with the labels $\ell_1, \dots, \ell_d$.
+    Let $w$ be a vector in $\mathcal{R}^d$ and assume that hypothesis $h_w$ is consistent with the labels $y_1, \dots, y_d$.
     Due to the construction of the labeling, this implies that $a_k (w \cdot v_k) \leq 0$ for $1 \leq k \leq d$.
     Consider now the prediction that $h_w$ makes for instance $v_0$.
     \begin{align*}
@@ -90,8 +90,8 @@ This solution will make use of the following proposition provided as a hint.
             &= \sum_{i=1}^{d} a_i (w \cdot v_i) \\
             &\leq 0
     \end{align*}
-    But the label of $v_0$ is defined as $\ell_0 = +1$.
-    So no hypothesis $h_w$ can be consistent with the labeling $\ell_0, \dots, \ell_d$, and thus that the hypothesis class can not shatter the set instance set $V$.
+    But the label of $v_0$ is defined as $y_0 = +1$.
+    So no hypothesis $h_w$ can be consistent with the labeling $y_0, \dots, y_d$, and thus that the hypothesis class can not shatter the set instance set $V$.
     Because $V$ is an arbitrary set of $d+1$ instances, we have thus shown that the VC-dimension of the hypothesis class is no more than $d$.
 \end{proof}
 
