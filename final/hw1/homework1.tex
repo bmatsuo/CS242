@@ -46,32 +46,68 @@ Let $V_m$ be the version space after seeing $m$ different (noise-free) labeled e
 \item \textbf{ Learning disjunctions: }
 
 \begin{enumerate}
-\item A general hypothesis is one that assumes that any unobserved point
-that could consistently be classified as a positive case, is classified
-that way. In the base case this will classify all points as positive.
-Any observed positive example will not change our general hypothesis
-space. However a negative example will force us to prune away instance
-assignments from our general hypothesis. See Algorithm~\ref{Alg:prune} for pseudo code.
+\item The most general consistent hypothesis is \emph{largest} hypothesis
+that consistently predicts all examples in the training set.
+In this context, the instance space is discrete (and finite),
+so the largest consistent hypothesis is the one that makes the most
+positive predictitions.
+In the base case, when no instances have been seen yet, this hypothesis is
+the disjunction of all possible attribute assignments and it will predict
+all instances as positive.
+
+In the algorithm we present, the algorithm must maintain a set $I$, the smallest
+set of variable assignments that can not appear in a consistent hypothesis.
+When the algorithm is inspecting examples and it sees negative example $\bar{x}$ 
+it adds the boolean assignments of $\bar{x}$ to the set $I$.
+This is the least the learner can do to ensure that any resulting hypothesis
+is consistent with all the negative examples seen.
+
+After seeing all the negative examples, the algorithm must make another pass and
+inspect all the positive examples.
+If there is a positive instance $x$ such that all the boolean assignments of $x$
+are contained in $I$, then there is no way to consistently predict $x$ and all
+the negative instances simultaneously.
+In this case, and only in this case, does the most consistent hypothesis \emph{not}
+exist (which is different from the empty disjuction hypothesis).
+Otherwise, there is every positive instance $x$ has at least one boolean assignment not in $I$.
+Or, if we defined the set $\mathcal{H}$ to be the set of all possible attribute assignments,
+we can say that every positive instance $x$ has at least one boolean assignment in
+$C = \mathcal{H} \setminus I$.
+Due to the definition of $\mathcal{H}$ and the construction of $I$, the set
+$C$ when viewed as a disjunction of its elements represents the most general consistent hypothesis.
+See Algorithm~\ref{Alg:prune} for pseudo code.
+
 \begin{algorithm}
 \caption{
 Efficient training algorithm:
 Attempts to construct a general hypothesis that is consistent with the the
 instances and labels of a training set.
-Prunes all instances in negative examples in the from the hypothesis.
+Prunes all boolean assignments in negative trainging instances from the hypothesis.
 Assume instance labels $y$ are elements of $\left\{+1,-1\right\}$,
 and instances $x$ are vectors in $\left\{0,1\right\}^n$ such that
 compontent $i$ of $x$ (denoted $x_i$) is the value of attribute $a_i$ for instance $x$.
+If there is no consistent hypothesis, then the algorithms triggers an ``EXPLODE''
+subroutine which signifies an error.
+After the algorithm runs, the disjunction $h$ is the most general consistent hypothesis.
 }
 \label{Alg:prune}
 \begin{algorithmic}
-\STATE $\mathcal{H} \gets a_1=0 \vee a_1=1 \vee \ldots \vee a_n=0 \vee a_n=1$
+\STATE Initialize $I$ as an empty set.
 \FORALL {$(x,y) \in \textnormal{TrainingSet}$}
 	\IF {$y = -1$}
 		\FORALL {$i=1,\dots,n$}
-			\STATE $\mathcal{H} \gets \mathcal{H} \setminus \left\{a_i=x_i\right\}$
+			\STATE Add $(a_i = x_i)$ to $I$.
 		\ENDFOR
 	\ENDIF
 \ENDFOR
+\FORALL {$(x,y) \in \textnormal{TrainingSet}$}
+    \IF {$y = +1 \textbf{ and } x_i \in I \textbf{ for all } i\in\left\{1,\dots,n\right\}$}
+        \STATE EXPLODE!
+	\ENDIF
+\ENDFOR
+\STATE $\mathcal{H} \gets \left\{(a_k = b) : 1 \leq k \leq n, b \in \left\{0,1\right\}\right\}$
+\STATE $C \gets \mathcal{H} \setminus I$
+\STATE $h \gets \displaystyle\bigvee_{(a_k=b) \in C} (a_k=b)$
 \end{algorithmic}
 \end{algorithm}
 
