@@ -53,29 +53,47 @@ Any observed positive example will not change our general hypothesis
 space. However a negative example will force us to prune away instance
 assignments from our general hypothesis. See Algorithm~\ref{Alg:prune} for pseudo code.
 \begin{algorithm}
-\caption{Efficient training algorithm: prunes all instances in negative examples from the hypothesis. }
+\caption{
+Efficient training algorithm:
+Attempts to construct a general hypothesis that is consistent with the the
+instances and labels of a training set.
+Prunes all instances in negative examples in the from the hypothesis.
+Assume instance labels $y$ are elements of $\left\{+1,-1\right\}$,
+and instances $x$ are vectors in $\mathcal{R}^n$ such that
+compontent $i$ of $x$ (denoted $x_i$) is the value of attribute $a_i$ for instance $x$.
+}
 \label{Alg:prune}
 \begin{algorithmic}
 \STATE $\mathcal{H} \gets a_1=0 \vee a_1=1 \vee \ldots \vee a_n=0 \vee a_n=1$
-\FORALL {$X \in \textnormal{Train}$}
-	\IF {$X \in F$}
-		\FORALL {$a_i=x\in X$}
-			\STATE $\mathcal{H} \gets \mathcal{H} \setminus \left\{a_i=x\right\}$
+\FORALL {$(x,y) \in \textnormal{TrainingSet}$}
+	\IF {$y = -1$}
+		\FORALL {$i=1,\dots,n$}
+			\STATE $\mathcal{H} \gets \mathcal{H} \setminus \left\{a_i=x_i\right\}$
 		\ENDFOR
 	\ENDIF
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}
 
-\item No the most specific hypothesis in this case is not well defined.
+\item No. The most specific hypothesis in this case is not well defined.
 The general algorithm for this would be to ignore negative instances,
-and for each positive observation insert the minimal set of instance
-assignments that properly classifies the set of positive observations.
-Consider a simple case with one positive observation that has a set
-of two instance assignments $\left\{ a_{1}=1,a_{2}=0\right\} $. In
-this case we have three equally good specific hypotheses, $h_{1}=\left[a_{1}=1\right]$
-, $h_{2}=\left[a_{2}=0\right]$, and $h_{3}=\left[a_{1}=1\vee a_{2}=0\right]$.
-By definition this is not well defined.
+and for each positive observation insert into the hypothesis disjunction
+the minimal set of instance assignments that properly classifies the
+observations, if the instance was not already correctly classified by the
+hypothesis.
+
+Consider a simple case with only two boolean attributes to learn ($n=2$)
+and where only one instance has been seen so far.
+Furthermore, let the instance have a positive label and contain assignments
+$\left\{ a_{1}=1,a_{2}=0\right\} $.
+In this case we have two equally specific hypotheses,
+$h_{1}=\left[a_{1}=1\right]$ and $h_{2}=\left[a_{2}=0\right]$.
+Each hypothesis is consistent with the example's label and contains exactly
+half of the instance space.
+Also, there are no hypotheses which include less of the instance space while
+being consistent with the observed instance.
+But, neither hypothesis $h_1$ nor $h_2$ can be considered the most specific
+hypothesis, because neither is fully contained in the other.
 \end{enumerate}
 
 
