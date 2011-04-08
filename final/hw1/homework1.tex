@@ -59,7 +59,7 @@ Attempts to construct a general hypothesis that is consistent with the the
 instances and labels of a training set.
 Prunes all instances in negative examples in the from the hypothesis.
 Assume instance labels $y$ are elements of $\left\{+1,-1\right\}$,
-and instances $x$ are vectors in $\mathcal{R}^n$ such that
+and instances $x$ are vectors in $\left\{0,1\right\}^n$ such that
 compontent $i$ of $x$ (denoted $x_i$) is the value of attribute $a_i$ for instance $x$.
 }
 \label{Alg:prune}
@@ -84,8 +84,8 @@ hypothesis.
 
 Consider a simple case with only two boolean attributes to learn ($n=2$)
 and where only one instance has been seen so far.
-Furthermore, let the instance have a positive label and contain assignments
-$\left\{ a_{1}=1,a_{2}=0\right\} $.
+Furthermore, let the instance have a positive label and be equal to the
+boolean 2-vector $(1,0)$.
 In this case we have two equally specific hypotheses,
 $h_{1}=\left[a_{1}=1\right]$ and $h_{2}=\left[a_{2}=0\right]$.
 Each hypothesis is consistent with the example's label and contains exactly
