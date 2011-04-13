@@ -34,7 +34,7 @@
 \item \textbf{General Probability: }
 
 \begin{enumerate}
-\item 
+\item %(A)
 <<>>=
 h<-matrix(data=c(0.8,0.25,0.5,0.8,0.75,0.5,0.2,0.75,0.5),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")), byrow=TRUE )
 print(h,type="latex")
@@ -42,7 +42,7 @@ p<-matrix(data=c(rep(1/2,3),rep(4/10,3),rep(1/10,3)),nrow=3,ncol=3)
 priors<- apply(p*h,1,sum)
 priors
 @
-\item
+\item %(B)
 <<>>=
 obs.p<-c(1,0,1)
 obs.n<-c(0,1,0)
@@ -52,10 +52,18 @@ likelihood <- likelihood.p + likelihood.n
 likelihood
 @
 The hypothesis with the greatest likelihood is $h_3$.
-\item
+
+\item %(C)
+$P(h|a=+,b=-,c=+)$ is what we want to calculate for this. By law of probability, by definition it is $\frac{P(H, a=+, b=-, c=+)}{P(a=+,b=-,c=+)}=\frac{P(h)P(a=+|h)P(b=-|h)P(c=+|h)}{\sum_{i=1}^3 P(h=h_i,a,b,c)}$ but you don't need to look at the bottom term since it is the same for all instances.
+
+\item %(D)
+We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of things we can look up in the table. $=\frac{P(a'=+, a=+, b=-, c=+)}{P(a=+,b=-,c=+)} = P(a'=+, h=h_1,a=+,b=-,c=+)+P(a'=+,h=h_2,\ldots)+P(a'=+,h=h_3,\ldots)$ and normalize it with also calculating $a'=-$. Where you calculate $P(a'=+, h=h_1,a=+,b=-,c=+)$ like $P(h_1)P(a=+|h_1)P(a'=+|h_1)P(b=-|h_1)P(c=+|h_1)$.
 
 
 \end{enumerate}
+\item \textbf{Naive Bayes:}
+
+ We generate instances in fields using the class. We assume independence between the fields. We have one distribution $P(AP|C=H)$ and $P(AP|C=N)$.  Note that $P(AP=Y|C=H)$ and $P(AP=N|C=H)$ sum to one, but not $P(AP|C=H)$ and $P(AP|C=N)$. We assume $P(GPA|C=H)=N(\mu_H,\sigma_H^2)$ and $P(GPA|C=N)=N(\mu_N,\sigma_N^2)$. We now have 5 independent distributions when you include the two priors. We also need to estimate prior distributions $P(C=H), P(C=N)$ and can just use empirical things. When you predict you have a new instance with an unknown class, known AP, known GPA. We calculate probability $P(C)P(AP|C)P(GPA|C)$ for each class and choose the one with the greatest probability. Naive bays just means that we can assume $P(AP,GPA|C) = P(AP|C)P(GPA|C)$ (ie GPA and AP are independent) which can be a lot easier to calculate.
 \end{enumerate}
 
 \end{document}
