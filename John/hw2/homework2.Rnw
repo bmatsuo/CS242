@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+\usepackage{ latexsym }
+\usepackage{ amsmath }
+\usepackage{ amsthm }
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+\title{Homework 2: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
+\begin{enumerate}
+\item \textbf{General Probability: }
+
+\begin{enumerate}
+\item 
+<<>>=
+h<-matrix(data=c(0.8,0.25,0.5,0.8,0.75,0.5,0.2,0.75,0.5),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")), byrow=TRUE )
+print(h,type="latex")
+p<-matrix(data=c(rep(1/2,3),rep(4/10,3),rep(1/10,3)),nrow=3,ncol=3)
+priors<- apply(p*h,1,sum)
+priors
+@
+\item
+<<>>=
+obs.p<-c(1,0,1)
+obs.n<-c(0,1,0)
+likelihood.p <- apply(obs.p*h,2,sum)
+likelihood.n <- apply(obs.n*(1-h),2,sum)
+likelihood <- likelihood.p + likelihood.n
+likelihood
+@
+The hypothesis with the greatest likelihood is $h_3$.
+\item
+
+
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
