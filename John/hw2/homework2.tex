@@ -1,0 +1,181 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+\usepackage{ latexsym }
+\usepackage{ amsmath }
+\usepackage{ amsthm }
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+%\linespread{2} %-- Uncomment for Double Space
+\usepackage{Sweave}
+\begin{document}
+
+\title{Homework 2: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
+\begin{enumerate}
+\item \textbf{General Probability: }
+
+\begin{enumerate}
+\item %(A)
+\begin{Schunk}
+\begin{Sinput}
+> print(h <- matrix(data = c(0.8, 0.25, 0.5, 0.8, 0.75, 0.5, 0.2, 
++     0.75, 0.5), nrow = 3, ncol = 3, dimnames = list(c("a", "b", 
++     "c"), c("h1", "h2", "h3")), byrow = TRUE))
+\end{Sinput}
+\begin{Soutput}
+   h1   h2  h3
+a 0.8 0.25 0.5
+b 0.8 0.75 0.5
+c 0.2 0.75 0.5
+\end{Soutput}
+\begin{Sinput}
+> print(p <- matrix(data = c(rep(1/2, 3), rep(4/10, 3), rep(1/10, 
++     3)), nrow = 3, ncol = 3))
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3]
+[1,]  0.5  0.4  0.1
+[2,]  0.5  0.4  0.1
+[3,]  0.5  0.4  0.1
+\end{Soutput}
+\begin{Sinput}
+> print(priors <- apply(p * h, 1, sum))
+\end{Sinput}
+\begin{Soutput}
+   a    b    c 
+0.55 0.75 0.45 
+\end{Soutput}
+\end{Schunk}
+\item %(B)
+\begin{Schunk}
+\begin{Sinput}
+> print(h_obs <- matrix(data = c(h["a", ], 1 - h["b", ], h["c", 
++     ]), nrow = 3, ncol = 3, dimnames = list(c("a", "b", "c"), 
++     c("h1", "h2", "h3")), byrow = TRUE))
+\end{Sinput}
+\begin{Soutput}
+   h1   h2  h3
+a 0.8 0.25 0.5
+b 0.2 0.25 0.5
+c 0.2 0.75 0.5
+\end{Soutput}
+\begin{Sinput}
+> apply(h_obs, 2, prod)
+\end{Sinput}
+\begin{Soutput}
+      h1       h2       h3 
+0.032000 0.046875 0.125000 
+\end{Soutput}
+\end{Schunk}
+The hypothesis with the greatest likelihood is $h_3$.
+
+\item %(C)
+$P(h|a=+,b=-,c=+)$ is what we want to calculate for this. By law of probability, by definition it is $\frac{P(H, a=+, b=-, c=+)}{P(a=+,b=-,c=+)}=\frac{P(h)P(a=+|h)P(b=-|h)P(c=+|h)}{\sum_{i=1}^3 P(h=h_i,a,b,c)}$ but you don't need to look at the bottom term since it is the same for all instances.
+\begin{Schunk}
+\begin{Sinput}
+> print(prior_h <- p[1, ])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.5 0.4 0.1
+\end{Soutput}
+\begin{Sinput}
+> apply(h_obs, 2, prod) * prior_h
+\end{Sinput}
+\begin{Soutput}
+     h1      h2      h3 
+0.01600 0.01875 0.01250 
+\end{Soutput}
+\end{Schunk}
+So without normalizing and turning these into probabilities, we can still simply choose the largest of these, which is now $h_2$.
+
+\item %(D)
+We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of things we can look up in the table. $=\frac{P(a'=+, a=+, b=-, c=+)}{P(a=+,b=-,c=+)} = P(a'=+, h=h_1,a=+,b=-,c=+)+P(a'=+,h=h_2,\ldots)+P(a'=+,h=h_3,\ldots)$ and normalize it with also calculating $a'=-$. Where you calculate $P(a'=+, h=h_1,a=+,b=-,c=+)$ like $P(h_1)P(a=+|h_1)P(a'=+|h_1)P(b=-|h_1)P(c=+|h_1)$.
+%not sure about this one now...
+\begin{Schunk}
+\begin{Sinput}
+> print("hello world")
+\end{Sinput}
+\begin{Soutput}
+[1] "hello world"
+\end{Soutput}
+\end{Schunk}
+
+\end{enumerate}
+\item \textbf{Naive Bayes:}
+
+ We generate instances in fields using the class. We assume independence between the fields. We have one distribution $P(AP|C=H)$ and $P(AP|C=N)$.  Note that $P(AP=Y|C=H)$ and $P(AP=N|C=H)$ sum to one, but not $P(AP|C=H)$ and $P(AP|C=N)$. We assume $P(GPA|C=H)=N(\mu_H,\sigma_H^2)$ and $P(GPA|C=N)=N(\mu_N,\sigma_N^2)$. We now have 5 independent distributions when you include the two priors. We also need to estimate prior distributions $P(C=H), P(C=N)$ and can just use empirical things. When you predict you have a new instance with an unknown class, known AP, known GPA. We calculate probability $P(C)P(AP|C)P(GPA|C)$ for each class and choose the one with the greatest probability. Naive bays just means that we can assume $P(AP,GPA|C) = P(AP|C)P(GPA|C)$ (ie GPA and AP are independent) which can be a lot easier to calculate. So to solve the problem we just set GPA to be a variable, set AP to true or false, and calculate the decision point for both of those cases separately.
+
+
+\begin{Schunk}
+\begin{Sinput}
+> dat
+\end{Sinput}
+\begin{Soutput}
+  GPA AP class
+1 4.0  y     H
+2 3.7  y     H
+3 2.5  n     H
+4 3.8  n     N
+5 3.3  y     N
+6 3.0  y     N
+7 3.0  n     N
+8 2.7  n     N
+9 2.2  n     N
+\end{Soutput}
+\begin{Sinput}
+> print(mean.gpa.by.class <- daply(dat, .(class), colwise(mean, 
++     .(mean.GPA = GPA))))
+\end{Sinput}
+\begin{Soutput}
+$H
+  mean.GPA
+1      3.4
+
+$N
+  mean.GPA
+1        3
+\end{Soutput}
+\begin{Sinput}
+> print(sd.gpa.by.class <- daply(dat, .(class), colwise(sd, .(sd.GPA = GPA))))
+\end{Sinput}
+\begin{Soutput}
+$H
+     sd.GPA
+1 0.7937254
+
+$N
+     sd.GPA
+1 0.5403702
+\end{Soutput}
+\begin{Sinput}
+> n.n <- sum(dat$class == "N")
+> n.h <- sum(dat$class == "H")
+> pc.n <- n.n/(n.n + n.h)
+> pc.h <- n.h/(n.n + n.h)
+\end{Sinput}
+\end{Schunk}
+ 
+ 
+\end{enumerate}
+
+\end{document}
