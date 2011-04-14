@@ -4,17 +4,22 @@
 %\usepackage[normalmargins]{savetrees}
 
 % Define new commands.
-\newtheorem{defn}{Definition}[section]
-\newtheorem{conjecture}{conjecture}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{corollary}{Corollary}[section]
-\newtheorem{question}{Question}[section]
-\newtheorem{proposition}{Proposition}[section]
+\newtheorem{defn}{Definition}%[section]
+\newtheorem{conjecture}{conjecture}%[section]
+\newtheorem{lemma}{Lemma}%[section]
+\newtheorem{corollary}{Corollary}%[section]
+\newtheorem{question}{Question}%[section]
+\newtheorem{proposition}{Proposition}%[section]
 
-\newcommand{\eqnref}[1]{(\ref{eqn: #1})}
-\newcommand{\figref}[1]{(\ref{fig: #1})}
-\newcommand{\algref}[1]{(\ref{alg: #1})}
-\newcommand{\tabref}[1]{(\ref{tab: #1})}
+\newcommand{\thmref}[1]{\ref{theorem: #1}}
+\newcommand{\lemref}[1]{\ref{lemma: #1}}
+\newcommand{\propref}[1]{\ref{proposition: #1}}
+\newcommand{\conjref}[1]{\ref{conjecture: #1}}
+\newcommand{\questref}[1]{\ref{question: #1}}
+\newcommand{\eqnref}[1]{\ref{equation: #1}}
+\newcommand{\figref}[1]{\ref{figure: #1}}
+\newcommand{\algref}[1]{\ref{algorithm: #1}}
+\newcommand{\tabref}[1]{\ref{table: #1}}
 
 %\newcommand{\abcitem}{\item[\alph({alphaenum})]\stepcounter{alphaenum}}
 \newenvironment{abclist}{
@@ -69,7 +74,7 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
     The risk $R(\hat y)$ of any prediction $\hat y$ is 
     \begin{equation}
         R(\hat y) = E_y[L(\hat{y} \mid y)] = \sum_{y \in \left\{ B,C,T \right\}} P(y) L(\hat{y} \mid y)
-        \label{eqn: risk}
+        \label{equation: risk}
     \end{equation}.
 
     Equation \eqnref{risk} allows us to calculate the risk associated with each prediction (or lack there of)
@@ -93,70 +98,95 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
 
 
 \section*{4 Expectation of a product}
+    First consider the following proposition.
+    \begin{proposition}[Conditional expection of a product.]
+        If $V$ and $W$ are random variables and $Z=VW$, then $E[Z|V=v,W=w]=\int_{-\infty}^{\infty}p(Z=z \mid V=v,W=w)dz = wv$.
+        \label{proposition: conditional expectation}
+    \end{proposition}
+    This is true in either the continuous or discrete case.
+    It is also a very straight forward and intuitive idea.
+    To actually show it would require more in depth arguments involving the hairyness of the Dirac delta function for continuous variables.
+    So here it is taken as fact.
+
+    We can now discuss the main result of this problem.
 \begin{lemma}[Product of idependent variables]
     Let $V$ and $W$ be independent random variables. Then $E[VW] = E[V]E[W]$.
 \end{lemma}
 \begin{proof}
-    Let $Z=VW$.
-    The joint probability density of $V$ and $Z$ is given as
-    \begin{equation}
-        p(V=v,Z=z) = p(V=v)p(Z=z|V=v) = p(V=v)p\bigg(W=\frac{z}{v}\bigg)
-    \end{equation}
-    Then the probability density of $Z$, $p(Z=z)$ is
-    \begin{eqnarray}
-        p(Z=z) &=& \int_{-\infty}^{\infty}p(V=v,Z=z)dv \\
-        &=& \int_{-\infty}^{\infty}p(V=v)p\bigg(W=\frac{z}{v}\bigg)dv
-        \label{eqn: indep_prod_density}
-    \end{eqnarray}
-    The expected value of $Z$ is then
-    \begin{eqnarray}
-        E[Z] &=& \int_{-\infty}^{\infty} zp(Z=z) dz \nonumber \\
-            &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}z p(V=\nu)p\bigg(W=\frac{z}{\nu}\bigg)d\nu dz \\
-        \label{eqn: full_expected_indep_prod}
-    \end{eqnarray}
-    Making the change of variables $\nu = v, z = vw$, we get
-    \begin{eqnarray}
-        E[Z] &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
-            vwp(V=v)p(W=w) (v \text{ \color{red}{\dots shit}}) dv dw \\
-            &=& \int_{-\infty}^{\infty} wp(W=w) \int_{-\infty}^{\infty} v^2 p(V=v) dv dw \\
-            &=& E[W]E[V^2]
-    \end{eqnarray}
-    That extra $v$ term that popped out of the determinant of the Jacobian really throws things off.
-    I notice now that I never actually used the fact that $V$ and $W$ are independent.
-    This could be the key flaw in the proof, but I can't see where to apply it.
-
-    {\color{blue}Alternatively}, the conditional probability density of $Z$ can be viewed as a Dirac delta function.
-    \begin{equation}
-        p(Z=z|V=v,W=w) = \delta(z - vw)
-        \label{eqn: p z}
-    \end{equation}
-    The delta function is shifted so all the probability \emph{mass} of $Z$($\in \mathcal{R}$) is centered over $vw$.
-    That is, $p(Z=z|V=v,W=w)$ is equal to 0 for all $z \neq vw$ and $\int_{-\infty}^{\infty}p(Z=z|V=v,W=w)dz = \int_{-\infty}^{\infty}\delta(z-vw)dz = 1$.
-    The final observation about the delta function that we will make is that 
-    \begin{equation}
-        \int_{-\infty}^{\infty} f(z)\delta(z-vw)dz = f(vw)
-        \label{eqn: delta func eval}
-    \end{equation}.
-    In particular, $E[Z] = \int_{-\infty}^{\infty} z\delta(z-vw)dz = vw$.
+    Assume $V$ and $W$ and independent random variables (numbers) and let $Z=VW$.
+    %The joint probability density of $V$ and $Z$ is given as
+    %\begin{equation}
+    %p(V=v,Z=z) = p(V=v)p(Z=z|V=v) = p(V=v)p\bigg(W=\frac{z}{v}\bigg)
+    %\end{equation}
+    %Then the probability density of $Z$, $p(Z=z)$ is
+    %\begin{eqnarray}
+    %p(Z=z) &=& \int_{-\infty}^{\infty}p(V=v,Z=z)dv \\
+    %&=& \int_{-\infty}^{\infty}p(V=v)p\bigg(W=\frac{z}{v}\bigg)dv
+    %\label{equation: indep_prod_density}
+    %\end{eqnarray}
+    %The expected value of $Z$ is then
+    %\begin{eqnarray}
+    %E[Z] &=& \int_{-\infty}^{\infty} zp(Z=z) dz \nonumber \\
+    %&=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}z p(V=\nu)p\bigg(W=\frac{z}{\nu}\bigg)d\nu dz \\
+    %\label{equation: full_expected_indep_prod}
+    %\end{eqnarray}
+    %Making the change of variables $\nu = v, z = vw$, we get
+    %\begin{eqnarray}
+    %E[Z] &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+    %vwp(V=v)p(W=w) (v \text{ \color{red}{\dots shit}}) dv dw \\
+    %&=& \int_{-\infty}^{\infty} wp(W=w) \int_{-\infty}^{\infty} v^2 p(V=v) dv dw \\
+    %&=& E[W]E[V^2]
+    %\end{eqnarray}
+    %That extra $v$ term that popped out of the determinant of the Jacobian really throws things off.
+    %I notice now that I never actually used the fact that $V$ and $W$ are independent.
+    %This could be the key flaw in the proof, but I can't see where to apply it.
+    %{\color{blue}Alternatively}, 
     
-    The joint probability density of $V$, $W$, and $Z$ can be written as
+    %the conditional probability mass of $Z$ (discrete case) can be viewed as a simple indicator function.
+    %\begin{equation}
+    %p(Z=z|V=v,W=w) = {\bf 1}_{z=vw}
+    %\label{equation: p z discrete}
+    %\end{equation}
+    %This should be obvious.
+    %When the values of $V$ and $W$ are known there is no randomness left in $Z$.
+    %Furthermore, it should be clear that the expected value of $Z$ given $V=v$ and $W=w$, $E[Z|V=v,W=w]$ is equal to $vw$.
+    %
+    %In the continuous case, the conditional density takes the form of a Dirac delta function shifted so all of $Z$'s density is centered over $vw$.
+    %\begin{equation}
+    %p(Z=z|V=v,W=w) = \delta(z - vw)
+    %\label{equation: p z}
+    %\end{equation}
+    %More explicitly $p(Z=z|V=v,W=w)$ is equal to 0 for all $z \neq vw$, but  \[\int_{-\infty}^{\infty}p(Z=z|V=v,W=w)dz = \int_{-\infty}^{\infty}\delta(z-vw)dz = 1\].
+    %The final observation about the delta function that we will make is that 
+    %\begin{equation}
+    %\int_{-\infty}^{\infty} f(z)\delta(z-vw)dz = f(vw)
+    %\label{equation: delta func eval}
+    %\end{equation}.
+    %In particular, $E[Z] = \int_{-\infty}^{\infty} z\delta(z-vw)dz = vw$.
+    
+    The joint probability density of $V$, $W$, and $Z$ can be expanded using the chain rule of probability and our assumption of independence between $V$ and $W$.
     \begin{eqnarray}
-        p(V=v, W=w, Z=z) &=& p(V=v, W=w)p(Z=z|V=v,W=w) \nonumber \\
-            &=& p(V=v)p(W=w)\delta(z - vw)
-            \label{eqn: joint density}
+        p(V=v, W=w, Z=z) &=& p(V=v, W=w)p(Z=z \mid V=v,W=w) \nonumber \\
+            &=& p(V=v)p(W=w)p(Z=z \mid V=v,W=w)
+            \label{equation: joint density}
     \end{eqnarray}.
-    with equations \eqnref{p z}, \eqnref{delta func eval}, and \eqnref{joint density} we can calculate the expected value of $Z=VW$.
+    The probability density of $Z$ can then be marginalized from the join density.
     \begin{eqnarray}
-        E[Z]
-        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} zp(V=v,W=w,Z=z) dzdwdv \nonumber \\
-        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} zp(V=v)p(W=w)\delta(z - vw) dzdwdv \nonumber \\
-        &=& \int_{-\infty}^{\infty} p(V=v) \int_{-\infty}^{\infty} p(W=w) \int_{-\infty}^{\infty} z\delta(z - vw) dzdwdv \nonumber \\
-        &=& \int_{-\infty}^{\infty} vp(V=v) \int_{-\infty}^{\infty} wp(W=w) dw dv = E[V]E[W]
-        \label{eqn: z_mean}
+        p(Z=z) &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v, W=w, Z=z) dwdv \nonumber \\
+        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v)p(W=w)p(Z=z \mid V=v,W=w) dwdv
+        \label{equation: p z}
     \end{eqnarray}
-    Booyakasha!
+    With proposition equation \eqnref{p z} and \propref{conditional expectation} we can calculate the expected value of $Z=VW$.
+    \begin{eqnarray}
+        E[Z] &=& \int_{-\infty}^{\infty} zp(Z=z)dz \nonumber \\
+        &=& \int_{-\infty}^{\infty} z \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v,W=w,Z=z) dwdvdz \nonumber \\
+        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} zp(V=v)p(W=w)p(Z=z \mid V=v,W=w) dwdvdz \nonumber \\
+        &=& \int_{-\infty}^{\infty} p(V=v) \int_{-\infty}^{\infty} p(W=w) \int_{-\infty}^{\infty} zp(Z=z \mid V=v,W=w) dzdwdv \nonumber \\
+        &=& \int_{-\infty}^{\infty} vp(V=v) \int_{-\infty}^{\infty} wp(W=w) dw dv = E[V]E[W]
+        \label{equation: z_mean}
+    \end{eqnarray}
+    The order of integration is changed, which should be applicable in the discrete and continuous case\dots
 \end{proof}
-Information about the Dirac delta function was mostly found on wikipedia, unfortunately.
 
 % Add a bibliography.
 %\bibliographystyle{apalike}
