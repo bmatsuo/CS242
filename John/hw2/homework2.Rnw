@@ -44,12 +44,8 @@ priors
 @
 \item %(B)
 <<>>=
-obs.p<-c(1,0,1)
-obs.n<-c(0,1,0)
-likelihood.p <- apply(obs.p*h,2,sum)
-likelihood.n <- apply(obs.n*(1-h),2,sum)
-likelihood <- likelihood.p + likelihood.n
-likelihood
+h_obs <- matrix(data=c(h['a',], 1-h['b',], h['c',]),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")),byrow=TRUE)
+apply(h_obs,2,prod)
 @
 The hypothesis with the greatest likelihood is $h_3$.
 
@@ -63,7 +59,8 @@ We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of t
 \end{enumerate}
 \item \textbf{Naive Bayes:}
 
- We generate instances in fields using the class. We assume independence between the fields. We have one distribution $P(AP|C=H)$ and $P(AP|C=N)$.  Note that $P(AP=Y|C=H)$ and $P(AP=N|C=H)$ sum to one, but not $P(AP|C=H)$ and $P(AP|C=N)$. We assume $P(GPA|C=H)=N(\mu_H,\sigma_H^2)$ and $P(GPA|C=N)=N(\mu_N,\sigma_N^2)$. We now have 5 independent distributions when you include the two priors. We also need to estimate prior distributions $P(C=H), P(C=N)$ and can just use empirical things. When you predict you have a new instance with an unknown class, known AP, known GPA. We calculate probability $P(C)P(AP|C)P(GPA|C)$ for each class and choose the one with the greatest probability. Naive bays just means that we can assume $P(AP,GPA|C) = P(AP|C)P(GPA|C)$ (ie GPA and AP are independent) which can be a lot easier to calculate.
+ We generate instances in fields using the class. We assume independence between the fields. We have one distribution $P(AP|C=H)$ and $P(AP|C=N)$.  Note that $P(AP=Y|C=H)$ and $P(AP=N|C=H)$ sum to one, but not $P(AP|C=H)$ and $P(AP|C=N)$. We assume $P(GPA|C=H)=N(\mu_H,\sigma_H^2)$ and $P(GPA|C=N)=N(\mu_N,\sigma_N^2)$. We now have 5 independent distributions when you include the two priors. We also need to estimate prior distributions $P(C=H), P(C=N)$ and can just use empirical things. When you predict you have a new instance with an unknown class, known AP, known GPA. We calculate probability $P(C)P(AP|C)P(GPA|C)$ for each class and choose the one with the greatest probability. Naive bays just means that we can assume $P(AP,GPA|C) = P(AP|C)P(GPA|C)$ (ie GPA and AP are independent) which can be a lot easier to calculate. So to solve the problem we just set GPA to be a variable, set AP to true or false, and calculate the decision point for both of those cases separately.
+ 
 \end{enumerate}
 
 \end{document}
