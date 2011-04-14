@@ -78,8 +78,12 @@ library("plyr")
 <<>>=
 dat
 
-print(mean.gpa.by.class <- ddply(dat,.(class),colwise(mean, .(mean.GPA = GPA))) )
-print(sd.gpa.by.class <- ddply(dat,.(class),colwise(sd, .(sd.GPA = GPA))))
+print(mean.gpa.by.class <- daply(dat,.(class),colwise(mean, .(mean.GPA = GPA))) )
+print(sd.gpa.by.class <- daply(dat,.(class),colwise(sd, .(sd.GPA = GPA))))
+n.n <- sum(dat$class == "N") #sums the vector of (TRUE, FALSE...)
+n.h <- sum(dat$class == "H")
+pc.n <- n.n / (n.n+n.h)
+pc.h <- n.h / (n.n + n.h)
 # example of grabbing 'H' class GPA column
 #sd.gpa.by.class$GPA[ sd.gpa.by.class$class == "H"]
 @
