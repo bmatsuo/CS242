@@ -87,12 +87,34 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
     \end{center}.
 
 \item A risk averse predictor would predict {\bf B} for any new instance if $a > 0.5 = R(B)$.
-    They could predict {\bf B} or {\bf A}bstain with equal exected loss (risk) if $a = 0.5$.
-    As $a$ tends to zero, the best predition for the risk averse predictor becomes to always abstain from giving a predict, for which the cost tests to zero.
+    They could predict {\bf B} or {\bf A}bstain with equal expectation for cost if $a = 0.5$.
+    As $a$ tends to zero, the best predition for the risk averse predictor becomes to always abstain from giving a prediction, for which the cost tests to zero.
 \end{abclist}
 
 
 \section*{4 Expectation of a product}
+\begin{lemma}[Product of idependent variables]
+    Let $V$ and $W$ be independent random variables. Then $E[VW] = E[V]E[W]$.
+\end{lemma}
+\begin{proof}
+    Let $Z=VW$. Then the probability density of $Z$, $p(Z=z)$ is
+    \begin{equation}
+        p(Z=z) = \int_{-\infty}^{\infty}p(V=v)p\bigg(W=\frac{z}{v}\bigg)dv
+        \label{eqn: indep_prod_density}
+    \end{equation}
+    The expected value of $Z$ is then
+    \begin{eqnarray}
+        E[Z] &=& \int_{-\infty}^{\infty} zp(Z=z) dz \nonumber \\
+            &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}z p(V=\nu)p\bigg(W=\frac{z}{\nu}\bigg)d\nu dz \\
+        \label{eqn: full_expected_indep_prod}
+    \end{eqnarray}
+    Making the change of variables $\nu = v, z = vw$, we get
+    \begin{eqnarray}
+        E[Z] &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+            vwp(V=v)p(W=w) (v \text{ \color{red}{\dots shit}}) dv dw
+    \end{eqnarray}
+    That extra $v$ term that popped out of the determinant of the Jacobian really throws things off.
+\end{proof}
 
 % Add a bibliography.
 %\bibliographystyle{apalike}
