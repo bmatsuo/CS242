@@ -57,15 +57,33 @@ So without normalizing and turning these into probabilities, we can still simply
 
 \item %(D)
 We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of things we can look up in the table. $=\frac{P(a'=+, a=+, b=-, c=+)}{P(a=+,b=-,c=+)} = P(a'=+, h=h_1,a=+,b=-,c=+)+P(a'=+,h=h_2,\ldots)+P(a'=+,h=h_3,\ldots)$ and normalize it with also calculating $a'=-$. Where you calculate $P(a'=+, h=h_1,a=+,b=-,c=+)$ like $P(h_1)P(a=+|h_1)P(a'=+|h_1)P(b=-|h_1)P(c=+|h_1)$.
+%not sure about this one now...
 <<>>=
-prior_h<- p[1,]
-
+print("hello world")
 @
 
 \end{enumerate}
 \item \textbf{Naive Bayes:}
 
  We generate instances in fields using the class. We assume independence between the fields. We have one distribution $P(AP|C=H)$ and $P(AP|C=N)$.  Note that $P(AP=Y|C=H)$ and $P(AP=N|C=H)$ sum to one, but not $P(AP|C=H)$ and $P(AP|C=N)$. We assume $P(GPA|C=H)=N(\mu_H,\sigma_H^2)$ and $P(GPA|C=N)=N(\mu_N,\sigma_N^2)$. We now have 5 independent distributions when you include the two priors. We also need to estimate prior distributions $P(C=H), P(C=N)$ and can just use empirical things. When you predict you have a new instance with an unknown class, known AP, known GPA. We calculate probability $P(C)P(AP|C)P(GPA|C)$ for each class and choose the one with the greatest probability. Naive bays just means that we can assume $P(AP,GPA|C) = P(AP|C)P(GPA|C)$ (ie GPA and AP are independent) which can be a lot easier to calculate. So to solve the problem we just set GPA to be a variable, set AP to true or false, and calculate the decision point for both of those cases separately.
+
+<<echo=FALSE>>=
+dat <- data.frame( c(4.0,3.7,2.5,3.8,3.3,3.0,3.0,2.7,2.2))
+names(dat) <- c("GPA")
+dat$AP <- factor(c("y","y","n","n","y","y","n","n","n"))
+dat$class <- factor(c("H","H","H","N","N","N","N","N","N"))
+library("plyr")
+@
+
+<<>>=
+dat
+
+print(mean.gpa.by.class <- ddply(dat,.(class),colwise(mean, .(mean.GPA = GPA))) )
+print(sd.gpa.by.class <- ddply(dat,.(class),colwise(sd, .(sd.GPA = GPA))))
+# example of grabbing 'H' class GPA column
+#sd.gpa.by.class$GPA[ sd.gpa.by.class$class == "H"]
+@
+ 
  
 \end{enumerate}
 
