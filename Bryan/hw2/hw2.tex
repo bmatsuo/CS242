@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}
+
+\usepackage{fullpage,latexsym,amsthm,amsmath,algorithmic,graphicx,subfigure,color,verbatim,epsfig,fancyhdr,multicol}
+%\usepackage[normalmargins]{savetrees}
+
+% Define new commands.
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+\newcommand{\eqnref}[1]{(\ref{eqn: #1})}
+\newcommand{\figref}[1]{(\ref{fig: #1})}
+\newcommand{\algref}[1]{(\ref{alg: #1})}
+\newcommand{\tabref}[1]{(\ref{tab: #1})}
+
+%\newcommand{\abcitem}{\item[\alph({alphaenum})]\stepcounter{alphaenum}}
+\newenvironment{abclist}{
+\begin{list}{(\alph{alphaenum}) ~}
+    {\newcounter{alphaenum} \setcounter{alphaenum}{1} \usecounter{alphaenum} }
+    }
+    {
+\end{list}
+}
+
+
+\begin{document}
+
+% Make the document title.
+\title{CMPS 242 - Spring 2011 - Homework assignment \#2}
+\author{ {Bryan Matsuo}\\
+{Department of Computer Science, UCSC}}
+%\date{\today}
+\maketitle
+
+%\begin{multicols}{2}
+\section*{1 Number Crunching\dots}
+
+\section*{2 Naive Bayes}
+
+\section*{3 Bayesian Decision Theory}
+
+In this problem we are classifying automobiles.
+Given an instance.
+We can predict {\bf B}us, {\bf C}ar, or a {\bf T}ruck.
+We may also choose to {\bf A}bstain (give no prediction).
+The cost matrix for the decisions is
+\begin{center}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        loss &
+        \multicolumn{4}{|c|}{prediction} \\
+        \multicolumn{1}{|r|} {class} & B & C & T & A \\
+        \hline
+        B & 0 & 1 & 1 & $a$ \\
+        C & 1 & 0 & 1 & $a$ \\
+        T & 1 & 1 & 0 & $a$ \\
+        \hline
+    \end{tabular}
+\end{center}
+where $a$ is a cost (or loss) incurred from abstaining from a prediction.
+We will denote the loss of a prediction $\hat y$ given a true label $y$ as
+$L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
+
+\begin{abclist}
+\item Assume that for an arbitrary instance $P(B) = 0.5, P(C) = 0.25, \text{ and } P(T) = 0.25$.
+    The risk $R(\hat y)$ of any prediction $\hat y$ is 
+    \begin{equation}
+        R(\hat y) = E_y[L(\hat{y} \mid y)] = \sum_{y \in \left\{ B,C,T \right\}} P(y) L(\hat{y} \mid y)
+        \label{eqn: risk}
+    \end{equation}.
+
+    Equation \eqnref{risk} allows us to calculate the risk associated with each prediction (or lack there of)
+    \begin{center}
+        \begin{tabular}{|l|c|}
+            \hline
+            class & risk \\
+        \hline
+        B & 0.5 \\
+            C & 0.75 \\
+            T & 0.75 \\
+            A & $a$ \\
+            \hline
+        \end{tabular}
+    \end{center}.
+
+\item A risk averse predictor would predict {\bf B} for any new instance if $a > 0.5 = R(B)$.
+    They could predict {\bf B} or {\bf A}bstain with equal exected loss (risk) if $a = 0.5$.
+    As $a$ tends to zero, the best predition for the risk averse predictor becomes to always abstain from giving a predict, for which the cost tests to zero.
+\end{abclist}
+
+
+\section*{4 Expectation of a product}
+
+% Add a bibliography.
+%\bibliographystyle{apalike}
+%\bibliography{project}
+
+%\end{multicols}
+
+\end{document}
