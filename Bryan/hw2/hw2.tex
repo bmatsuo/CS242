@@ -125,22 +125,38 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
     I notice now that I never actually used the fact that $V$ and $W$ are independent.
     This could be the key flaw in the proof, but I can't see where to apply it.
 
-    Alternatively, the joint probability density of $V$, $W$, and $Z$ is given as
+    {\color{blue}Alternatively}, the conditional probability density of $Z$ can be viewed as a Dirac delta function.
     \begin{equation}
-        p(V=v, W=w, Z=z) = p(V=v, W=w)p(Z=z|V=v,W=w) = p(V=v)P(W=w)1_{z=wv}
+        p(Z=z|V=v,W=w) = \delta(z - vw)
+        \label{eqn: p z}
     \end{equation}
-    Could this be the key?
+    The delta function is shifted so all the probability \emph{mass} of $Z$($\in \mathcal{R}$) is centered over $vw$.
+    That is, $p(Z=z|V=v,W=w)$ is equal to 0 for all $z \neq vw$ and $\int_{-\infty}^{\infty}p(Z=z|V=v,W=w)dz = \int_{-\infty}^{\infty}\delta(z-vw)dz = 1$.
+    The final observation about the delta function that we will make is that 
+    \begin{equation}
+        \int_{-\infty}^{\infty} f(z)\delta(z-vw)dz = f(vw)
+        \label{eqn: delta func eval}
+    \end{equation}.
+    In particular, $E[Z] = \int_{-\infty}^{\infty} z\delta(z-vw)dz = vw$.
+    
+    The joint probability density of $V$, $W$, and $Z$ can be written as
     \begin{eqnarray}
-        p(Z=z) &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v, W=w, Z=z)dv \\
-        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v) p(W=w)1_{z=wv} dv dw \\
-    \end{eqnarray}
+        p(V=v, W=w, Z=z) &=& p(V=v, W=w)p(Z=z|V=v,W=w) \nonumber \\
+            &=& p(V=v)p(W=w)\delta(z - vw)
+            \label{eqn: joint density}
+    \end{eqnarray}.
+    with equations \eqnref{p z}, \eqnref{delta func eval}, and \eqnref{joint density} we can calculate the expected value of $Z=VW$.
     \begin{eqnarray}
-        E[Z] &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
-            z 1_{z=wv} p(V=v)p(W=w) dv dw dz \\
-            &=^?& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} wvP(W=w)P(V=v) dv dw
+        E[Z]
+        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} zp(V=v,W=w,Z=z) dzdwdv \nonumber \\
+        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} zp(V=v)p(W=w)\delta(z - vw) dzdwdv \nonumber \\
+        &=& \int_{-\infty}^{\infty} p(V=v) \int_{-\infty}^{\infty} p(W=w) \int_{-\infty}^{\infty} z\delta(z - vw) dzdwdv \nonumber \\
+        &=& \int_{-\infty}^{\infty} vp(V=v) \int_{-\infty}^{\infty} wp(W=w) dw dv = E[V]E[W]
+        \label{eqn: z_mean}
     \end{eqnarray}
-    That probably is not a true statement.
+    Booyakasha!
 \end{proof}
+Information about the Dirac delta function was mostly found on wikipedia, unfortunately.
 
 % Add a bibliography.
 %\bibliographystyle{apalike}
