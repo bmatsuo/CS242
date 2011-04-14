@@ -188,6 +188,16 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
     The order of integration is changed, which should be applicable in the discrete and continuous case\dots
 \end{proof}
 
+Let $R$ be a Bernoulli random variable equal to 1 with probablity 0.5, and equal to zero with probability 0.5.
+Now, let $S=R$ and $T=RS$.
+Note that $T$ has the same value as $R^2$.
+Also, $R^2$ has the same value as $R$, since $R$ can only be 0 or 1.
+So the random variable $T$ is identical to $R$.
+So $E[T]=E[RS]=E[R^2]=E[R]=0.5$. This is not equal to $E[R]E[S]=E[R]^2=0.25$.
+
+
+
+
 % Add a bibliography.
 %\bibliographystyle{apalike}
 %\bibliography{project}
