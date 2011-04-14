@@ -97,11 +97,17 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
     Let $V$ and $W$ be independent random variables. Then $E[VW] = E[V]E[W]$.
 \end{lemma}
 \begin{proof}
-    Let $Z=VW$. Then the probability density of $Z$, $p(Z=z)$ is
+    Let $Z=VW$.
+    The joint probability density of $V$ and $Z$ is given as
     \begin{equation}
-        p(Z=z) = \int_{-\infty}^{\infty}p(V=v)p\bigg(W=\frac{z}{v}\bigg)dv
-        \label{eqn: indep_prod_density}
+        p(V=v,Z=z) = p(V=v)p(Z=z|V=v) = p(V=v)p\bigg(W=\frac{z}{v}\bigg)
     \end{equation}
+    Then the probability density of $Z$, $p(Z=z)$ is
+    \begin{eqnarray}
+        p(Z=z) &=& \int_{-\infty}^{\infty}p(V=v,Z=z)dv \\
+        &=& \int_{-\infty}^{\infty}p(V=v)p\bigg(W=\frac{z}{v}\bigg)dv
+        \label{eqn: indep_prod_density}
+    \end{eqnarray}
     The expected value of $Z$ is then
     \begin{eqnarray}
         E[Z] &=& \int_{-\infty}^{\infty} zp(Z=z) dz \nonumber \\
@@ -111,9 +117,29 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
     Making the change of variables $\nu = v, z = vw$, we get
     \begin{eqnarray}
         E[Z] &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
-            vwp(V=v)p(W=w) (v \text{ \color{red}{\dots shit}}) dv dw
+            vwp(V=v)p(W=w) (v \text{ \color{red}{\dots shit}}) dv dw \\
+            &=& \int_{-\infty}^{\infty} wp(W=w) \int_{-\infty}^{\infty} v^2 p(V=v) dv dw \\
+            &=& E[W]E[V^2]
     \end{eqnarray}
     That extra $v$ term that popped out of the determinant of the Jacobian really throws things off.
+    I notice now that I never actually used the fact that $V$ and $W$ are independent.
+    This could be the key flaw in the proof, but I can't see where to apply it.
+
+    Alternatively, the joint probability density of $V$, $W$, and $Z$ is given as
+    \begin{equation}
+        p(V=v, W=w, Z=z) = p(V=v, W=w)p(Z=z|V=v,W=w) = p(V=v)P(W=w)1_{z=wv}
+    \end{equation}
+    Could this be the key?
+    \begin{eqnarray}
+        p(Z=z) &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v, W=w, Z=z)dv \\
+        &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(V=v) p(W=w)1_{z=wv} dv dw \\
+    \end{eqnarray}
+    \begin{eqnarray}
+        E[Z] &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+            z 1_{z=wv} p(V=v)p(W=w) dv dw dz \\
+            &=^?& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} wvP(W=w)P(V=v) dv dw
+    \end{eqnarray}
+    That probably is not a true statement.
 \end{proof}
 
 % Add a bibliography.
