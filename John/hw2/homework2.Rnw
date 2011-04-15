@@ -119,9 +119,15 @@ p.ap.n_class.n <- 1 - p.ap.y_class.n
 
 So we need to calculate $P(AP=y|C=H)P(GPA|C=H) == P(AP=y|C=N)P(GPA|C=N)$ Using wolfram alpha to solve the equations on the following page we get the following rules:
 
+Solving this equation gives two GPA cutoffs for prediction of H. That defines the interval where you would predict that a student will be normal. 
 
 If AP courses are taken, predict H if the GPA is not between 1.99183 and 2.30188 \\
 if AP courses are not taken, never predict H.
+
+In reality though it doesn't make sense that a student with a GPA between 0 and 1.99 would be an honors student if they simply took an AP class. With this prior expectation we can just look at the upper portion of the predicted interval for H and say if a student gets a GPA between 4.0 and 2.3 then we predict H giving us the following alternate rule:
+
+If AP courses are taken, predict H if the GPA is above 2.30188 \\
+if AP courses are not taken, never predict H (unless the GPA is over 4.3 somehow).
  
 \end{enumerate}
 
