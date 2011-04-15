@@ -23,7 +23,6 @@
 \newtheorem{question}{Question}[section]
 \newtheorem{proposition}{Proposition}[section]
 
-
 %\linespread{2} %-- Uncomment for Double Space
 \begin{document}
 
@@ -35,32 +34,58 @@
 
 \begin{enumerate}
 \item %(A)
-<<>>=
-print(h<-matrix(data=c(0.8,0.25,0.5,0.8,0.75,0.5,0.2,0.75,0.5),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")), byrow=TRUE ))
-print(p<-matrix(data=c(rep(1/2,3),rep(4/10,3),rep(1/10,3)),nrow=3,ncol=3))
-print(priors<- apply(p*h,1,sum))
-@
+The prior probability that each point is positive is the mean probability of the point under the hypotheses weighted by the prior of each hypothesis.
+%<<>>=
+%library("plyr")
+%print(h<-matrix(data=c(0.8,0.25,0.5,0.8,0.75,0.5,0.2,0.75,0.5),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")), byrow=TRUE ))
+%print(p<-matrix(data=c(rep(1/2,3),rep(4/10,3),rep(1/10,3)),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1.p","h2.p","h3.p"))))
+%print(priors<- apply(p*h,1,sum))
+%@
 \item %(B)
-<<>>=
-print(h_obs <- matrix(data=c(h['a',], 1-h['b',], h['c',]),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")),byrow=TRUE))
-apply(h_obs,2,prod)
-@
+To calculate this value, I first make a matrix of the probability of our observations a+,b-,c+ conditioned on each hypothesis. I will call this array cond.prob.obs. Next calculate the product of the probabilities of each hypothesis in the matrix to get the likelihood of that hypothesis.
+%<<>>=
+%print(cond.prob.obs <- matrix(data=c(h['a',], 1-h['b',], h['c',]),nrow=3,ncol=3,dimnames=list(c("a+","b-","c+"),c("h1","h2","h3")),byrow=TRUE))
+%print( h.cond <- apply(cond.prob.obs,2,prod) )
+%@
 The hypothesis with the greatest likelihood is $h_3$.
 
 \item %(C)
 $P(h|a=+,b=-,c=+)$ is what we want to calculate for this. By law of probability, by definition it is $\frac{P(H, a=+, b=-, c=+)}{P(a=+,b=-,c=+)}=\frac{P(h)P(a=+|h)P(b=-|h)P(c=+|h)}{\sum_{i=1}^3 P(h=h_i,a,b,c)}$ but you don't need to look at the bottom term since it is the same for all instances.
-<<>>=
-print(prior_h<- p[1,])
-apply(h_obs,2,prod)*prior_h
-@
+%<<>>=
+%print(prior_h<- p[1,])
+%posterior<- h.cond*prior_h
+%print(posterior<-posterior/sum(posterior))
+%
+%@
 So without normalizing and turning these into probabilities, we can still simply choose the largest of these, which is now $h_2$.
 
 \item %(D)
 We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of things we can look up in the table. $=\frac{P(a'=+, a=+, b=-, c=+)}{P(a=+,b=-,c=+)} = P(a'=+, h=h_1,a=+,b=-,c=+)+P(a'=+,h=h_2,\ldots)+P(a'=+,h=h_3,\ldots)$ and normalize it with also calculating $a'=-$. Where you calculate $P(a'=+, h=h_1,a=+,b=-,c=+)$ like $P(h_1)P(a=+|h_1)P(a'=+|h_1)P(b=-|h_1)P(c=+|h_1)$.
-%not sure about this one now...
-<<>>=
-print("hello world")
-@
+%
+%<<>>=
+%posterior.rhack <- matrix(rep(posterior,3),nrow=3,byrow=TRUE)
+%joint.cond.prob<-posterior.rhack * h
+%print(mean.posterior.pr<-aaply(joint.cond.prob,1,sum))
+%@
+
+\item %{E}
+%do parts B, C,D again
+Since the empirically observed frequencies of each letter are the same as before, the maximum likelihood hypothesis wouldn't change. 
+
+The maximum a'posteriori hypothesis after seeing as the observed data grows, the priors will be decreasingly important.
+%<<>>=
+%posterior_2 <- h.cond*h.cond*prior_h
+%print(posterior_2 <-posterior_2/sum(posterior_2))
+%@
+
+Similarly the mean posterior probability of + for each point after seeing the data will change.
+
+%<<>>=
+%posterior_2.rhack <- matrix(rep(posterior_2,3),nrow=3,byrow=TRUE)
+%joint.cond.prob.2<-posterior_2.rhack * h
+%print(mean.posterior.pr<-aaply(joint.cond.prob.2,1,sum))
+%@
+
 
 \end{enumerate}
 \item \textbf{Naive Bayes:}
@@ -68,26 +93,35 @@ print("hello world")
  We generate instances in fields using the class. We assume independence between the fields. We have one distribution $P(AP|C=H)$ and $P(AP|C=N)$.  Note that $P(AP=Y|C=H)$ and $P(AP=N|C=H)$ sum to one, but not $P(AP|C=H)$ and $P(AP|C=N)$. We assume $P(GPA|C=H)=N(\mu_H,\sigma_H^2)$ and $P(GPA|C=N)=N(\mu_N,\sigma_N^2)$. We now have 5 independent distributions when you include the two priors. We also need to estimate prior distributions $P(C=H), P(C=N)$ and can just use empirical things. When you predict you have a new instance with an unknown class, known AP, known GPA. We calculate probability $P(C)P(AP|C)P(GPA|C)$ for each class and choose the one with the greatest probability. Naive bays just means that we can assume $P(AP,GPA|C) = P(AP|C)P(GPA|C)$ (ie GPA and AP are independent) which can be a lot easier to calculate. So to solve the problem we just set GPA to be a variable, set AP to true or false, and calculate the decision point for both of those cases separately.
 
 <<echo=FALSE>>=
+library("ggplot2")
 dat <- data.frame( c(4.0,3.7,2.5,3.8,3.3,3.0,3.0,2.7,2.2))
 names(dat) <- c("GPA")
 dat$AP <- factor(c("y","y","n","n","y","y","n","n","n"))
 dat$class <- factor(c("H","H","H","N","N","N","N","N","N"))
-library("plyr")
 @
 
 <<>>=
 dat
 
-print(mean.gpa.by.class <- daply(dat,.(class),colwise(mean, .(mean.GPA = GPA))) )
-print(sd.gpa.by.class <- daply(dat,.(class),colwise(sd, .(sd.GPA = GPA))))
+print(mean.gpa.by.class <- ddply(dat,.(class),colwise(mean, .(mean.GPA = GPA))) )
+print(sd.gpa.by.class <- ddply(dat,.(class),colwise(sd, .(sd.GPA = GPA))))
 n.n <- sum(dat$class == "N") #sums the vector of (TRUE, FALSE...)
 n.h <- sum(dat$class == "H")
 pc.n <- n.n / (n.n+n.h)
 pc.h <- n.h / (n.n + n.h)
-# example of grabbing 'H' class GPA column
-#sd.gpa.by.class$GPA[ sd.gpa.by.class$class == "H"]
+n.ap.y.class.h <- sum(dat$class == "H" & dat$AP=="y")
+n.ap.y.class.n <- sum(dat$class == "N" & dat$AP=="y")
+print(p.ap.y_class.h <- n.ap.y.class.h/n.h)
+p.ap.n_class.h <- 1 - p.ap.y_class.h
+print(p.ap.y_class.n <- n.ap.y.class.n/n.n)
+p.ap.n_class.n <- 1 - p.ap.y_class.n
 @
- 
+
+So we need to calculate $P(AP=y|C=H)P(GPA|C=H) == P(AP=y|C=N)P(GPA|C=N)$ Using wolfram alpha to solve the equations on the following page we get the following rules:
+
+
+If AP courses are taken, predict H if the GPA is not between 1.99183 and 2.30188 \\
+if AP courses are not taken, never predict H.
  
 \end{enumerate}
 

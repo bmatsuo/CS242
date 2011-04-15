@@ -23,7 +23,6 @@
 \newtheorem{question}{Question}[section]
 \newtheorem{proposition}{Proposition}[section]
 
-
 %\linespread{2} %-- Uncomment for Double Space
 \usepackage{Sweave}
 \begin{document}
@@ -36,89 +35,58 @@
 
 \begin{enumerate}
 \item %(A)
-\begin{Schunk}
-\begin{Sinput}
-> print(h <- matrix(data = c(0.8, 0.25, 0.5, 0.8, 0.75, 0.5, 0.2, 
-+     0.75, 0.5), nrow = 3, ncol = 3, dimnames = list(c("a", "b", 
-+     "c"), c("h1", "h2", "h3")), byrow = TRUE))
-\end{Sinput}
-\begin{Soutput}
-   h1   h2  h3
-a 0.8 0.25 0.5
-b 0.8 0.75 0.5
-c 0.2 0.75 0.5
-\end{Soutput}
-\begin{Sinput}
-> print(p <- matrix(data = c(rep(1/2, 3), rep(4/10, 3), rep(1/10, 
-+     3)), nrow = 3, ncol = 3))
-\end{Sinput}
-\begin{Soutput}
-     [,1] [,2] [,3]
-[1,]  0.5  0.4  0.1
-[2,]  0.5  0.4  0.1
-[3,]  0.5  0.4  0.1
-\end{Soutput}
-\begin{Sinput}
-> print(priors <- apply(p * h, 1, sum))
-\end{Sinput}
-\begin{Soutput}
-   a    b    c 
-0.55 0.75 0.45 
-\end{Soutput}
-\end{Schunk}
+The prior probability that each point is positive is the mean probability of the point under the hypotheses weighted by the prior of each hypothesis.
+%<<>>=
+%library("plyr")
+%print(h<-matrix(data=c(0.8,0.25,0.5,0.8,0.75,0.5,0.2,0.75,0.5),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1","h2","h3")), byrow=TRUE ))
+%print(p<-matrix(data=c(rep(1/2,3),rep(4/10,3),rep(1/10,3)),nrow=3,ncol=3,dimnames=list(c("a","b","c"),c("h1.p","h2.p","h3.p"))))
+%print(priors<- apply(p*h,1,sum))
+%@
 \item %(B)
-\begin{Schunk}
-\begin{Sinput}
-> print(h_obs <- matrix(data = c(h["a", ], 1 - h["b", ], h["c", 
-+     ]), nrow = 3, ncol = 3, dimnames = list(c("a", "b", "c"), 
-+     c("h1", "h2", "h3")), byrow = TRUE))
-\end{Sinput}
-\begin{Soutput}
-   h1   h2  h3
-a 0.8 0.25 0.5
-b 0.2 0.25 0.5
-c 0.2 0.75 0.5
-\end{Soutput}
-\begin{Sinput}
-> apply(h_obs, 2, prod)
-\end{Sinput}
-\begin{Soutput}
-      h1       h2       h3 
-0.032000 0.046875 0.125000 
-\end{Soutput}
-\end{Schunk}
+To calculate this value, I first make a matrix of the probability of our observations a+,b-,c+ conditioned on each hypothesis. I will call this array cond.prob.obs. Next calculate the product of the probabilities of each hypothesis in the matrix to get the likelihood of that hypothesis.
+%<<>>=
+%print(cond.prob.obs <- matrix(data=c(h['a',], 1-h['b',], h['c',]),nrow=3,ncol=3,dimnames=list(c("a+","b-","c+"),c("h1","h2","h3")),byrow=TRUE))
+%print( h.cond <- apply(cond.prob.obs,2,prod) )
+%@
 The hypothesis with the greatest likelihood is $h_3$.
 
 \item %(C)
 $P(h|a=+,b=-,c=+)$ is what we want to calculate for this. By law of probability, by definition it is $\frac{P(H, a=+, b=-, c=+)}{P(a=+,b=-,c=+)}=\frac{P(h)P(a=+|h)P(b=-|h)P(c=+|h)}{\sum_{i=1}^3 P(h=h_i,a,b,c)}$ but you don't need to look at the bottom term since it is the same for all instances.
-\begin{Schunk}
-\begin{Sinput}
-> print(prior_h <- p[1, ])
-\end{Sinput}
-\begin{Soutput}
-[1] 0.5 0.4 0.1
-\end{Soutput}
-\begin{Sinput}
-> apply(h_obs, 2, prod) * prior_h
-\end{Sinput}
-\begin{Soutput}
-     h1      h2      h3 
-0.01600 0.01875 0.01250 
-\end{Soutput}
-\end{Schunk}
+%<<>>=
+%print(prior_h<- p[1,])
+%posterior<- h.cond*prior_h
+%print(posterior<-posterior/sum(posterior))
+%
+%@
 So without normalizing and turning these into probabilities, we can still simply choose the largest of these, which is now $h_2$.
 
 \item %(D)
 We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of things we can look up in the table. $=\frac{P(a'=+, a=+, b=-, c=+)}{P(a=+,b=-,c=+)} = P(a'=+, h=h_1,a=+,b=-,c=+)+P(a'=+,h=h_2,\ldots)+P(a'=+,h=h_3,\ldots)$ and normalize it with also calculating $a'=-$. Where you calculate $P(a'=+, h=h_1,a=+,b=-,c=+)$ like $P(h_1)P(a=+|h_1)P(a'=+|h_1)P(b=-|h_1)P(c=+|h_1)$.
-%not sure about this one now...
-\begin{Schunk}
-\begin{Sinput}
-> print("hello world")
-\end{Sinput}
-\begin{Soutput}
-[1] "hello world"
-\end{Soutput}
-\end{Schunk}
+%
+%<<>>=
+%posterior.rhack <- matrix(rep(posterior,3),nrow=3,byrow=TRUE)
+%joint.cond.prob<-posterior.rhack * h
+%print(mean.posterior.pr<-aaply(joint.cond.prob,1,sum))
+%@
+
+\item %{E}
+%do parts B, C,D again
+Since the empirically observed frequencies of each letter are the same as before, the maximum likelihood hypothesis wouldn't change. 
+
+The maximum a'posteriori hypothesis after seeing as the observed data grows, the priors will be decreasingly important.
+%<<>>=
+%posterior_2 <- h.cond*h.cond*prior_h
+%print(posterior_2 <-posterior_2/sum(posterior_2))
+%@
+
+Similarly the mean posterior probability of + for each point after seeing the data will change.
+
+%<<>>=
+%posterior_2.rhack <- matrix(rep(posterior_2,3),nrow=3,byrow=TRUE)
+%joint.cond.prob.2<-posterior_2.rhack * h
+%print(mean.posterior.pr<-aaply(joint.cond.prob.2,1,sum))
+%@
+
 
 \end{enumerate}
 \item \textbf{Naive Bayes:}
@@ -143,38 +111,51 @@ We want to know $P(a'=+ | a=+,b=-,c=+)$. Again we can rewrite this in terms of t
 9 2.2  n     N
 \end{Soutput}
 \begin{Sinput}
-> print(mean.gpa.by.class <- daply(dat, .(class), colwise(mean, 
+> print(mean.gpa.by.class <- ddply(dat, .(class), colwise(mean, 
 +     .(mean.GPA = GPA))))
 \end{Sinput}
 \begin{Soutput}
-$H
-  mean.GPA
-1      3.4
-
-$N
-  mean.GPA
-1        3
+  class mean.GPA
+1     H      3.4
+2     N      3.0
 \end{Soutput}
 \begin{Sinput}
-> print(sd.gpa.by.class <- daply(dat, .(class), colwise(sd, .(sd.GPA = GPA))))
+> print(sd.gpa.by.class <- ddply(dat, .(class), colwise(sd, .(sd.GPA = GPA))))
 \end{Sinput}
 \begin{Soutput}
-$H
-     sd.GPA
-1 0.7937254
-
-$N
-     sd.GPA
-1 0.5403702
+  class    sd.GPA
+1     H 0.7937254
+2     N 0.5403702
 \end{Soutput}
 \begin{Sinput}
 > n.n <- sum(dat$class == "N")
 > n.h <- sum(dat$class == "H")
 > pc.n <- n.n/(n.n + n.h)
 > pc.h <- n.h/(n.n + n.h)
+> n.ap.y.class.h <- sum(dat$class == "H" & dat$AP == "y")
+> n.ap.y.class.n <- sum(dat$class == "N" & dat$AP == "y")
+> print(p.ap.y_class.h <- n.ap.y.class.h/n.h)
+\end{Sinput}
+\begin{Soutput}
+[1] 0.6666667
+\end{Soutput}
+\begin{Sinput}
+> p.ap.n_class.h <- 1 - p.ap.y_class.h
+> print(p.ap.y_class.n <- n.ap.y.class.n/n.n)
+\end{Sinput}
+\begin{Soutput}
+[1] 0.3333333
+\end{Soutput}
+\begin{Sinput}
+> p.ap.n_class.n <- 1 - p.ap.y_class.n
 \end{Sinput}
 \end{Schunk}
- 
+
+So we need to calculate $P(AP=y|C=H)P(GPA|C=H) == P(AP=y|C=N)P(GPA|C=N)$ Using wolfram alpha to solve the equations on the following page we get the following rules:
+
+
+If AP courses are taken, predict H if the GPA is between 1.4373, and 4.0, \\
+if AP courses are not taken, never predict H.
  
 \end{enumerate}
 
