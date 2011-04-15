@@ -1,15 +1,30 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array,color}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
 
-\usepackage{fullpage,latexsym,amsthm,amsmath,algorithmic,graphicx,subfigure,color,verbatim,epsfig,fancyhdr,multicol}
-%\usepackage[normalmargins]{savetrees}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+\usepackage{ latexsym }
+\usepackage{ amsmath }
+\usepackage{ amsthm }
+\usepackage{Sweave}
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
 
-% Define new commands.
-\newtheorem{defn}{Definition}%[section]
-\newtheorem{conjecture}{conjecture}%[section]
-\newtheorem{lemma}{Lemma}%[section]
-\newtheorem{corollary}{Corollary}%[section]
-\newtheorem{question}{Question}%[section]
-\newtheorem{proposition}{Proposition}%[section]
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
 
 \newcommand{\thmref}[1]{\ref{theorem: #1}}
 \newcommand{\lemref}[1]{\ref{lemma: #1}}
@@ -21,24 +36,19 @@
 \newcommand{\algref}[1]{\ref{algorithm: #1}}
 \newcommand{\tabref}[1]{\ref{table: #1}}
 
-%\newcommand{\abcitem}{\item[\alph({alphaenum})]\stepcounter{alphaenum}}
 \newcounter{alphaenum}
 \newenvironment{abclist}
     { \begin{list}{(\alph{alphaenum}) ~} { \setcounter{alphaenum}{1} \usecounter{alphaenum} } }
     { \end{list} }
 
-
+%\linespread{2} %-- Uncomment for Double Space
 \begin{document}
 
-% Make the document title.
-\title{CMPS 242 - Spring 2011 - Homework assignment \#2}
-\author{ {Bryan Matsuo}\\
-{Department of Computer Science, UCSC}}
-%\date{\today}
-\maketitle
+\title{Homework 2: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
 
-%\begin{multicols}{2}
-\section*{1 Number Crunching\dots}
+\section{Number Crunching\dots}
 Note: The probabilities in this problem were calculated with a python script. It should be attached at the end of the assignment.
 
 This problem focuses on a discriminative model where a hypothesis $h$ is chosen from a prior and instances are labeled according to the probabilities given by $h$.
@@ -183,9 +193,123 @@ For parts (a)-(d), assume that we have the priors described above, and then see 
     Although, in this example where the label instances are not very random looking, a hypothesis class with more diverse hypotheses might run the risk of overfitting the data.
 \end{abclist}
 
-\section*{2 Naive Bayes}
+\section{Naive Bayes}
 
-\section*{3 Bayesian Decision Theory}
+\begin{Schunk}
+\begin{Sinput}
+> dat
+\end{Sinput}
+\begin{Soutput}
+  GPA AP class
+1 4.0  y     H
+2 3.7  y     H
+3 2.5  n     H
+4 3.8  n     N
+5 3.3  y     N
+6 3.0  y     N
+7 3.0  n     N
+8 2.7  n     N
+9 2.2  n     N
+\end{Soutput}
+
+%We generate instances in fields using the class.
+In with Naive Bayes we assume that instance features are uncorrelated.
+When a new instance $x$ is seen with AP status $x_{AP}$ and GPA $x_{GPA}$ we calculate probability
+\[p(C=c,AP=x_{AP},GPA=x_{GPA}) = p(C=c)p(AP=x_{AP}|C=c)p(GPA=x_{GPA}|C=c)\]
+for each class $c$ and predict with the class which maximizes this probability.
+The independence assumption of Naive Bayes allows the factoring performed above.
+
+As such, to compute the naive bayes prediction rule in this case we much compute conditional distibutions for each instance feature given either label.
+We also must compute prior distribution over the instance labels.
+So, that is $2 \times (\text{number of features}) + 1=5$ distributions that must be computed for this problem.
+
+First, we compute distributions for the conditioned random variable $AP|C$.
+Note that $p(AP=yes|C=H)$ and $p(AP=no|C=H)$ sum to one, but $p(AP=yes|C=H)$ and $p(AP=yes|C=N)$ are not required to sum to one (although they do in this example).
+\begin{Schunk}
+\begin{Sinput}
+> n.n <- sum(dat$class == "N")
+> n.h <- sum(dat$class == "H")
+> n.ap.y.class.h <- sum(dat$class == "H" & dat$AP == "y")
+> n.ap.y.class.n <- sum(dat$class == "N" & dat$AP == "y")
+> print(p.ap.y_class.h <- n.ap.y.class.h/n.h)
+\end{Sinput}
+\begin{Soutput}
+[1] 0.6666667
+\end{Soutput}
+\begin{Sinput}
+> print(p.ap.y_class.n <- n.ap.y.class.n/n.n)
+\end{Sinput}
+\begin{Soutput}
+[1] 0.3333333
+\end{Soutput}
+\end{Schunk}
+
+We assume the conditional GPA score distribution is distributed normally.
+That is $GPA|C=H \sim N(\mu_H,\sigma_H^2)$ and $GPA|C=N \sim N(\mu_N,\sigma_N^2)$.
+The parameters for these gaussian distributions are estimated from the sample points using non-biased estimators.
+\begin{Sinput}
+> print(mean.gpa.by.class <- ddply(dat, .(class), colwise(mean, 
++     .(mean.GPA = GPA))))
+\end{Sinput}
+\begin{Soutput}
+  class mean.GPA
+1     H      3.4
+2     N      3.0
+\end{Soutput}
+\begin{Sinput}
+> print(sd.gpa.by.class <- ddply(dat, .(class), colwise(sd, .(sd.GPA = GPA))))
+\end{Sinput}
+\begin{Soutput}
+  class    sd.GPA
+1     H 0.7937254
+2     N 0.5403702
+\end{Soutput}
+\end{Schunk}
+
+Finally, we must estimate prior distribution over instance label $C$ and can just use empirical counts.
+\begin{Schunk}
+\begin{Sinput}
+> print(pc.n <- n.n/(n.n + n.h))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.6666667
+\end{Soutput}
+\begin{Sinput}
+> print(pc.h <- n.h/(n.n + n.h))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.3333333
+\end{Soutput}
+\end{Schunk}
+
+As mentioned at the beginning of the problem, to determine which class we predict for a new instance $x$ we must compute
+\[\argmax_{c\in\left\{ H,N \right\}} p(C=c)p(AP=x_{AP}|C=c)p(GPA=x_{GPA}|C=c)\].
+Alternatively, we can solve for $x_{GPA}$ in inequalities
+\begin{eqnarray*}
+    p(AP=yes|C=H)p(GPA=x_{GPA}|C=H) &>& p(AP=yes|C=N)p(GPA=x_{GPA}|C=N) \\
+    \text{and } p(AP=no|C=H)p(GPA=x_{GPA}|C=H) &>& p(AP=no|C=N)p(GPA=x_{GPA}|C=N)
+\end{eqnarray*} and predict $H$ for instances which solve the inequality corresponding to their AP status.
+We solved the equivalent inqualities
+\begin{equation}
+    \ln \frac{p(AP=x_{AP} \mid C=H)}{p(AP=x_{AP} \mid C=N)}
+    > \ln \frac{p(GPA=x_{GPA} \mid C=N)}{p(GPA=x_{GPA} \mid C=H)}
+    \label{equation: interval constraint}
+\end{equation}, both in cases where $x_{AP}=yes$ and $x_{AP}=no$.
+Taking the logarithm reduces the problem to finding the roots of a quadratic.
+
+Solving this inequality gives two GPA thresholds for predicting $H$ on an instance $x$ with AP feature $x_{AP}$. It defines the interval where you would predict that a student will be normal and produces the following prediction rule:
+
+If AP courses are taken, predict H if the GPA is not between 1.99183 and 2.30188. \\
+If AP courses are not taken, never predict H (unless the GPA can be somehow outside of range $[0,4.3]$).
+
+In reality though it doesn't make sense that a student with a GPA between 0 and 1.99 would be an honors student if they simply took an AP class.
+With this belief we can augment our prediction rule and only predict H on instances with GPA scores greater than the thresholds calculated from equation \eqnref{interval constraint}.
+This would yield the following prediction rule:
+
+If AP courses are taken, predict H if the GPA is above 2.30188. \\
+If AP courses are not taken, never predict H (unless the GPA is over 4.3 somehow).
+ 
+\section{Bayesian Decision Theory}
 
 In this problem we are classifying automobiles.
 Given an instance.
@@ -237,7 +361,7 @@ $L(\hat{y} \mid y)$. For example, $L(B|C)=1, L(T|T) = 0 \text{ and } L(A|C)=a$.
 \end{abclist}
 
 
-\section*{4 Expectation of a product}
+\section{Expectation of a product}
     First consider the following proposition.
     \begin{proposition}[Conditional expection of a product.]
         If $V$ and $W$ are random variables and $Z=VW$, then $E[Z|V=v,W=w]=\int_{-\infty}^{\infty}p(Z=z \mid V=v,W=w)dz = wv$.
@@ -343,5 +467,7 @@ So $E[T]=E[RS]=E[R^2]=E[R]=0.5$. This is not equal to $E[R]E[S]=E[R]^2=0.25$.
 %\bibliography{project}
 
 %\end{multicols}
+
+
 
 \end{document}
