@@ -38,14 +38,14 @@ We need to show that $\ln \frac{p(1|x,w)}{p(0|x.w)}=w\cdot x$. We are given that
 \ln \frac{p(1|x,w)}{p(0|x.w)} \\
 = \ln p(1|w,x) - \ln p(0|w,x) \\
 =  \ln \frac{e^{w\cdot x}}{1+e^{w \cdot x}} - \ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
-=\ln e^{w\cdot x} - ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
-=\ln e^{w\cdot x} - ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}}-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
-=\ln e^{w\cdot x} - ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}+ \frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}-\frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
-=\ln e^{w\cdot x} - ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
-=\ln e^{w\cdot x} - ln \left[ 1 + e^{w\cdot x} \right] -\ln e^{w\cdot x} + \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
-= - ln \left[ 1 + e^{w\cdot x} \right] +  \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
-= - ln \left[ 1 + e^{w\cdot x} \right] + \ln \left[ e^{w\cdot x}\left(1+e^{\cdot w\cdot x}\right) \right]\\
-= - ln \left[ 1 + e^{w\cdot x} \right] + \ln e^{w\cdot x} + \ln \left[1+e^{\cdot w\cdot x}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}}-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}+ \frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}-\frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln e^{w\cdot x} + \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
+= - \ln \left[ 1 + e^{w\cdot x} \right] +  \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
+= - \ln \left[ 1 + e^{w\cdot x} \right] + \ln \left[ e^{w\cdot x}\left(1+e^{\cdot w\cdot x}\right) \right]\\
+= - \ln \left[ 1 + e^{w\cdot x} \right] + \ln e^{w\cdot x} + \ln \left[1+e^{\cdot w\cdot x}\right] \\
 =\ln e^{w\cdot x}\\
 = w\cdot x
 \end{eqnarray*}
