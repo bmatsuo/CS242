@@ -81,12 +81,12 @@ Weighted Avg. F-Measure & 1  & 0.76  &  0.775 \\
 
 
 \item %b
+I think we might just be able to take the weight vector as the w term, with the intercept as the + bias part of the term.
 TODO: DO THIS ONE!!
 
 
 \item %c
-This time since the test set was different from the training set, we can start to get a much more realistic idea of the accuracy of each method, the accuracy results from this run are shown in table~\ref{tab:partc}. Now that the training and test set are different we can see that the Nearest Neighbor technique actually performs the worst on our data while Naive Bayes and Logistic Regression are fairly comparable. If I had to chose a best method I would say that Naive Bayes is optimal. The most important thing in a medical setting is to have a high recall rate on the positive patients (so they get further evaluations and treatment) and secondly high precision on negatives (so time and money isn't waisted giving further evaluation to people who aren't at risk for diabetes). The test with the highest negative test precision and highest positive test recall rates is the Naive Bayes method, so I would say it is the best in a medical setting.
-
+This time since the test set was different from the training set, we can start to get a much more realistic idea of the accuracy of each method, the accuracy results from this run are shown in table~\ref{tab:partc}. Now that the training and test set are different we can see that the Nearest Neighbor technique actually performs the worst on our data while Naive Bayes appears to be the best for a medical setting. Since Diabetes is can lead to very expensive procedures if not treated in a timely fashion, the most important thing is that when you tell someone they are not at risk, they really aren't. If you tell someone that they are at risk but they turn out not to be it isn't as big of a deal. Thus for your negative predictions you want high precision, but more importantly for the positives you want high recall. Naive Bayes has both the highest recall for positives and highest precision for negatives.
 
 \begin{table}[htdp]
 \caption{Precision, recall, and F-measure on 10-fold CV of the data}
@@ -110,7 +110,51 @@ Weighted Avg. F-Measure & 0.698   & 0.76  & 0.765  \\
 \end{table}%
 
 \item %d
+\begin{enumerate}
+\item
+The normalize function takes each numeric  attribute and normalizes it relative to the corresponding attribute in the remainder of the samples. After normalization each attribute has some value between 0 and 1 inclusive. 
+\item
+The only method with different accuracy values after normalization was Naive Bayes. TODO: WHY?
 
+\item
+
+The weight vectors (shown below) appear to be more extreme after normalization than before normalization. The negative weights are more negative and the positives are more positive. This is probably needed to achieve adequate separation of the data now that it has been compacted into the [0,1] range.
+
+
+{\bf Weight Vector before normalization:}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -0.1232
+plas                 -0.0352
+pres                  0.0133
+skin                 -0.0006
+insu                  0.0012
+mass                 -0.0897
+pedi                 -0.9452
+age                  -0.0149
+Intercept             8.4047
+\end{verbatim}
+
+{\bf Weight Vector after normalization:}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0941
+plas                 -6.9976
+pres                  1.6221
+skin                 -0.0613
+insu                  1.0082
+mass                 -6.0189
+pedi                 -2.2136
+age                  -0.8921
+Intercept             8.0187
+
+\end{verbatim}
+
+\end{enumerate}
 
 \item %e
 
