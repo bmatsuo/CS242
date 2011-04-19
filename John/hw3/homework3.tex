@@ -54,7 +54,72 @@ We need to show that $\ln \frac{p(1|x,w)}{p(0|x.w)}=w\cdot x$. We are given that
 \item \textbf{Weka Experiments: }
 
 \begin{enumerate}
-\item 
+\item %a
+The weighted average precision and recall are shown in table~\ref{tab:parta}. Although it is tempting to say that the Nearest Neighbor method is the best, there is a reason it scored perfectly while the others did not. Nearest Neighbor includes each datapoint in its training set, along with the correct label, so when you test on the training set it simply spits the correct labels back out at you. Taking that into consideration it is impossible to say which method was the best. We'll need to evaluate the methods on a different set of data than was used to train to compare the techniques.
+
+
+\begin{table}[htdp]
+\caption{Precision, recall, and F-measure on the training data}
+\begin{center}
+\begin{tabular}{l||c|c|c|}
+               & Nearest & Naive & Logistic  \\
+               & Neighbor &  Bayes & Regression  \\
+               \hline
+Tested Negative Precision & 1 & 0.803 & 0.799 \\
+Tested Negative Recall &1  &  0.842 & 0.89 \\
+Tested Negative F-Measure &  1& 0.822 & 0.842 \\
+Tested Positive Precision & 1 & 0.676 & 0.739 \\
+Tested Positive Recall &1  & 0.616 & 0.582 \\
+Tested Positive F-Measure &  1 & 0.645 & 0.651 \\
+Weighted Avg. Precision & 1 & 0.759 & 0.778\\
+Weighted Avg. Recall & 1 & 0.763 & 0.783 \\
+Weighted Avg. F-Measure & 1  & 0.76  &  0.775 \\
+\end{tabular}
+\end{center}
+\label{tab:parta}
+\end{table}%
+
+
+\item %b
+TODO: DO THIS ONE!!
+
+
+\item %c
+This time since the test set was different from the training set, we can start to get a much more realistic idea of the accuracy of each method, the accuracy results from this run are shown in table~\ref{tab:partc}. Now that the training and test set are different we can see that the Nearest Neighbor technique actually performs the worst on our data while Naive Bayes and Logistic Regression are fairly comparable. If I had to chose a best method I would say that Naive Bayes is optimal. The most important thing in a medical setting is to have a high recall rate on the positive patients (so they get further evaluations and treatment) and secondly high precision on negatives (so time and money isn't waisted giving further evaluation to people who aren't at risk for diabetes). The test with the highest negative test precision and highest positive test recall rates is the Naive Bayes method, so I would say it is the best in a medical setting.
+
+
+\begin{table}[htdp]
+\caption{Precision, recall, and F-measure on 10-fold CV of the data}
+\begin{center}
+\begin{tabular}{l||c|c|c|}
+               & Nearest & Naive & Logistic  \\
+               & Neighbor &  Bayes & Regression  \\
+               \hline
+Tested Negative Precision & 0.759 & 0.802 & 0.793 \\
+Tested Negative Recall & 0.794  & 0.763 & 0.88 \\
+Tested Negative F-Measure & 0.776 & 0.823 & 0.834 \\
+Tested Positive Precision & 0.58 & 0.759  & 0.718 \\
+Tested Positive Recall & 0.53 & 0.612 & 0.571 \\
+Tested Positive F-Measure &  0.554 & 0.643 & 0.636  \\
+Weighted Avg. Precision & 0.696 & 0.759 & 0.767\\
+Weighted Avg. Recall & 0.702  & 0.763 & 0.772 \\
+Weighted Avg. F-Measure & 0.698   & 0.76  & 0.765  \\
+\end{tabular}
+\end{center}
+\label{tab:partc}
+\end{table}%
+
+\item %d
+
+
+\item %e
+
+\item %f
+
+\item %g
+
+\item %h
+
 \end{enumerate}
 \end{enumerate}
 
