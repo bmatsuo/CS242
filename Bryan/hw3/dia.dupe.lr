@@ -1,0 +1,106 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.functions.Logistic -R 1.0E-8 -M -1
+Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Instances:    768
+Attributes:   19
+              preg0
+              preg1
+              preg2
+              preg3
+              preg4
+              preg5
+              preg6
+              preg7
+              preg8
+              preg9
+              preg10
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Logistic Regression with ridge parameter of 1.0E-8
+Coefficients...
+                       Class
+Variable     tested_negative
+============================
+preg0                -0.1904
+preg1                -0.1904
+preg2                -0.1904
+preg3                -0.1904
+preg4                -0.1904
+preg5                -0.1904
+preg6                -0.1904
+preg7                -0.1904
+preg8                -0.1904
+preg9                -0.1904
+preg10               -0.1904
+plas                 -6.9976
+pres                  1.6221
+skin                 -0.0613
+insu                  1.0082
+mass                 -6.0189
+pedi                 -2.2136
+age                  -0.8921
+Intercept             8.0187
+
+
+Odds Ratios...
+                       Class
+Variable     tested_negative
+============================
+preg0                 0.8267
+preg1                 0.8267
+preg2                 0.8267
+preg3                 0.8267
+preg4                 0.8267
+preg5                 0.8267
+preg6                 0.8267
+preg7                 0.8267
+preg8                 0.8267
+preg9                 0.8267
+preg10                0.8267
+plas                  0.0009
+pres                  5.0636
+skin                  0.9406
+insu                  2.7406
+mass                  0.0024
+pedi                  0.1093
+age                   0.4098
+
+
+Time taken to build model: 0.02 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         593               77.2135 %
+Incorrectly Classified Instances       175               22.7865 %
+Kappa statistic                          0.4734
+Mean absolute error                      0.3094
+Root mean squared error                  0.3954
+Relative absolute error                 68.0819 %
+Root relative squared error             82.9651 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.88      0.429      0.793     0.88      0.834      0.832    tested_negative
+                 0.571     0.12       0.718     0.571     0.636      0.832    tested_positive
+Weighted Avg.    0.772     0.321      0.767     0.772     0.765      0.832
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 440  60 |   a = tested_negative
+ 115 153 |   b = tested_positive
+

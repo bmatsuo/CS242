@@ -1,0 +1,68 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.lazy.IB1 
+Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Instances:    768
+Attributes:   29
+              rand00
+              rand01
+              rand02
+              rand03
+              rand04
+              rand05
+              rand06
+              rand07
+              rand08
+              rand09
+              rand10
+              rand11
+              rand12
+              rand13
+              rand14
+              rand15
+              rand16
+              rand17
+              rand18
+              rand19
+              preg
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+IB1 classifier
+
+Time taken to build model: 0.01 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         465               60.5469 %
+Incorrectly Classified Instances       303               39.4531 %
+Kappa statistic                          0.0932
+Mean absolute error                      0.3945
+Root mean squared error                  0.6281
+Relative absolute error                 86.8043 %
+Root relative squared error            131.7792 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.746     0.657      0.679     0.746     0.711      0.545    tested_negative
+                 0.343     0.254      0.42      0.343     0.378      0.545    tested_positive
+Weighted Avg.    0.605     0.516      0.589     0.605     0.595      0.545
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 373 127 |   a = tested_negative
+ 176  92 |   b = tested_positive
+

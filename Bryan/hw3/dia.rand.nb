@@ -1,0 +1,242 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayes 
+Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Instances:    768
+Attributes:   29
+              rand00
+              rand01
+              rand02
+              rand03
+              rand04
+              rand05
+              rand06
+              rand07
+              rand08
+              rand09
+              rand10
+              rand11
+              rand12
+              rand13
+              rand14
+              rand15
+              rand16
+              rand17
+              rand18
+              rand19
+              preg
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Naive Bayes Classifier
+
+                         Class
+Attribute      tested_negative tested_positive
+                        (0.65)          (0.35)
+===============================================
+rand00
+  mean                   0.5292          0.5047
+  std. dev.              0.2818          0.2961
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand01
+  mean                   0.4835          0.5158
+  std. dev.              0.2822          0.2855
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand02
+  mean                   0.5006          0.4981
+  std. dev.              0.2856          0.3016
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand03
+  mean                   0.5172          0.4972
+  std. dev.               0.283          0.2914
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand04
+  mean                   0.5025          0.5078
+  std. dev.              0.2886          0.2869
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand05
+  mean                   0.4781           0.506
+  std. dev.              0.2862           0.292
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand06
+  mean                   0.4956          0.4764
+  std. dev.              0.2967          0.2874
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand07
+  mean                   0.5067          0.4538
+  std. dev.               0.296          0.2857
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand08
+  mean                    0.535          0.5234
+  std. dev.              0.2906          0.2963
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand09
+  mean                   0.4796          0.4892
+  std. dev.              0.2914          0.2919
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand10
+  mean                   0.4941          0.5029
+  std. dev.              0.2885           0.275
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand11
+  mean                   0.5028          0.4741
+  std. dev.               0.291          0.2759
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand12
+  mean                   0.5058          0.4649
+  std. dev.              0.2847          0.2818
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand13
+  mean                   0.4918           0.514
+  std. dev.              0.2831          0.2967
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand14
+  mean                   0.4918          0.4926
+  std. dev.              0.2873          0.2928
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand15
+  mean                   0.4621          0.4924
+  std. dev.              0.2902          0.2908
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand16
+  mean                   0.5103          0.5121
+  std. dev.              0.2874          0.2901
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand17
+  mean                   0.5121          0.4736
+  std. dev.               0.297          0.2872
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand18
+  mean                   0.4888          0.5279
+  std. dev.              0.2815          0.2907
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+rand19
+  mean                   0.5191          0.4841
+  std. dev.              0.2976          0.2857
+  weight sum                500             268
+  precision              0.0013          0.0013
+
+preg
+  mean                   0.2014          0.2929
+  std. dev.              0.1774          0.2166
+  weight sum                500             268
+  precision              0.0625          0.0625
+
+plas
+  mean                   0.5525          0.7098
+  std. dev.              0.1312          0.1602
+  weight sum                500             268
+  precision              0.0074          0.0074
+
+pres
+  mean                   0.5585          0.5797
+  std. dev.              0.1474          0.1755
+  weight sum                500             268
+  precision              0.0217          0.0217
+
+skin
+  mean                   0.2004          0.2251
+  std. dev.              0.1505          0.1788
+  weight sum                500             268
+  precision                0.02            0.02
+
+insu
+  mean                   0.0814          0.1185
+  std. dev.              0.1168          0.1637
+  weight sum                500             268
+  precision              0.0054          0.0054
+
+mass
+  mean                   0.4516          0.5238
+  std. dev.              0.1145          0.1081
+  weight sum                500             268
+  precision               0.004           0.004
+
+pedi
+  mean                   0.1502          0.2017
+  std. dev.              0.1275          0.1587
+  weight sum                500             268
+  precision              0.0019          0.0019
+
+age
+  mean                   0.1704          0.2673
+  std. dev.              0.1937          0.1825
+  weight sum                500             268
+  precision              0.0196          0.0196
+
+
+
+Time taken to build model: 0.05 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         589               76.6927 %
+Incorrectly Classified Instances       179               23.3073 %
+Kappa statistic                          0.4701
+Mean absolute error                      0.2806
+Root mean squared error                  0.415 
+Relative absolute error                 61.745  %
+Root relative squared error             87.0638 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.858     0.403      0.799     0.858     0.827      0.819    tested_negative
+                 0.597     0.142      0.693     0.597     0.641      0.819    tested_positive
+Weighted Avg.    0.767     0.312      0.762     0.767     0.762      0.819
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 429  71 |   a = tested_negative
+ 108 160 |   b = tested_positive
+
