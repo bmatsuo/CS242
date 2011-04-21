@@ -1,0 +1,170 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+\usepackage{ latexsym }
+\usepackage{ amsmath }
+\usepackage{ amsthm }
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+\title{Homework 3: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
+\begin{enumerate}
+\item \textbf{Logistic regression:}
+We need to show that $\ln \frac{p(1|x,w)}{p(0|x.w)}=w\cdot x$. We are given that in this case $p(1|w,x) = \frac{e^{w\cdot x}}{1+e^{w \cdot x}}$
+
+\begin{eqnarray*}
+\ln \frac{p(1|x,w)}{p(0|x.w)} \\
+= \ln p(1|w,x) - \ln p(0|w,x) \\
+=  \ln \frac{e^{w\cdot x}}{1+e^{w \cdot x}} - \ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}}-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}+ \frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}-\frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
+=\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln e^{w\cdot x} + \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
+= - \ln \left[ 1 + e^{w\cdot x} \right] +  \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
+= - \ln \left[ 1 + e^{w\cdot x} \right] + \ln \left[ e^{w\cdot x}\left(1+e^{\cdot w\cdot x}\right) \right]\\
+= - \ln \left[ 1 + e^{w\cdot x} \right] + \ln e^{w\cdot x} + \ln \left[1+e^{\cdot w\cdot x}\right] \\
+=\ln e^{w\cdot x}\\
+= w\cdot x
+\end{eqnarray*}
+
+
+\item \textbf{Weka Experiments: }
+
+\begin{enumerate}
+\item %a
+The weighted average precision and recall are shown in table~\ref{tab:parta}. Although it is tempting to say that the Nearest Neighbor method is the best, there is a reason it scored perfectly while the others did not. Nearest Neighbor includes each datapoint in its training set, along with the correct label, so when you test on the training set it simply spits the correct labels back out at you. Taking that into consideration it is impossible to say which method was the best. We'll need to evaluate the methods on a different set of data than was used to train to compare the techniques.
+
+
+\begin{table}[htdp]
+\caption{Precision, recall, and F-measure on the training data}
+\begin{center}
+\begin{tabular}{l||c|c|c|}
+               & Nearest & Naive & Logistic  \\
+               & Neighbor &  Bayes & Regression  \\
+               \hline
+Tested Negative Precision & 1 & 0.803 & 0.799 \\
+Tested Negative Recall &1  &  0.842 & 0.89 \\
+Tested Negative F-Measure &  1& 0.822 & 0.842 \\
+Tested Positive Precision & 1 & 0.676 & 0.739 \\
+Tested Positive Recall &1  & 0.616 & 0.582 \\
+Tested Positive F-Measure &  1 & 0.645 & 0.651 \\
+Weighted Avg. Precision & 1 & 0.759 & 0.778\\
+Weighted Avg. Recall & 1 & 0.763 & 0.783 \\
+Weighted Avg. F-Measure & 1  & 0.76  &  0.775 \\
+\end{tabular}
+\end{center}
+\label{tab:parta}
+\end{table}%
+
+
+\item %b
+I think we might just be able to take the weight vector as the w term, with the intercept as the + bias part of the term.
+TODO: DO THIS ONE!!
+
+
+\item %c
+This time since the test set was different from the training set, we can start to get a much more realistic idea of the accuracy of each method, the accuracy results from this run are shown in table~\ref{tab:partc}. Now that the training and test set are different we can see that the Nearest Neighbor technique actually performs the worst on our data while Naive Bayes appears to be the best for a medical setting. Since Diabetes is can lead to very expensive procedures if not treated in a timely fashion, the most important thing is that when you tell someone they are not at risk, they really aren't. If you tell someone that they are at risk but they turn out not to be it isn't as big of a deal. Thus for your negative predictions you want high precision, but more importantly for the positives you want high recall. Naive Bayes has both the highest recall for positives and highest precision for negatives.
+
+\begin{table}[htdp]
+\caption{Precision, recall, and F-measure on 10-fold CV of the data}
+\begin{center}
+\begin{tabular}{l||c|c|c|}
+               & Nearest & Naive & Logistic  \\
+               & Neighbor &  Bayes & Regression  \\
+               \hline
+Tested Negative Precision & 0.759 & 0.802 & 0.793 \\
+Tested Negative Recall & 0.794  & 0.763 & 0.88 \\
+Tested Negative F-Measure & 0.776 & 0.823 & 0.834 \\
+Tested Positive Precision & 0.58 & 0.759  & 0.718 \\
+Tested Positive Recall & 0.53 & 0.612 & 0.571 \\
+Tested Positive F-Measure &  0.554 & 0.643 & 0.636  \\
+Weighted Avg. Precision & 0.696 & 0.759 & 0.767\\
+Weighted Avg. Recall & 0.702  & 0.763 & 0.772 \\
+Weighted Avg. F-Measure & 0.698   & 0.76  & 0.765  \\
+\end{tabular}
+\end{center}
+\label{tab:partc}
+\end{table}%
+
+\item %d
+\begin{enumerate}
+\item
+The normalize function takes each numeric  attribute and normalizes it relative to the corresponding attribute in the remainder of the samples. After normalization each attribute has some value between 0 and 1 inclusive. 
+\item
+The only method with different accuracy values after normalization was Naive Bayes. TODO: WHY?
+
+\item
+
+The weight vectors (shown below) appear to be more extreme after normalization than before normalization. The negative weights are more negative and the positives are more positive. This is probably needed to achieve adequate separation of the data now that it has been compacted into the [0,1] range.
+
+
+{\bf Weight Vector before normalization:}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -0.1232
+plas                 -0.0352
+pres                  0.0133
+skin                 -0.0006
+insu                  0.0012
+mass                 -0.0897
+pedi                 -0.9452
+age                  -0.0149
+Intercept             8.4047
+\end{verbatim}
+
+{\bf Weight Vector after normalization:}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0941
+plas                 -6.9976
+pres                  1.6221
+skin                 -0.0613
+insu                  1.0082
+mass                 -6.0189
+pedi                 -2.2136
+age                  -0.8921
+Intercept             8.0187
+
+\end{verbatim}
+
+\end{enumerate}
+
+\item %e
+
+\item %f
+
+\item %g
+
+\item %h
+
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
