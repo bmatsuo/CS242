@@ -157,8 +157,43 @@ Intercept             8.0187
 \end{enumerate}
 
 \item %e
+As can be clearly seen, to 4 significant digits, the weight vector doesn't change between the default value of R=$1\times10^{-8}$ and R=0.0. When R is increased to 0.1 though the weight vector does change slightly, as does the intercept. The accuracy for all values of R I have tried is the same.
+
+
+
+{\bf R=0.1}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0877
+plas                 -6.9767
+pres                  1.6139
+skin                 -0.0602
+insu                  0.9985
+mass                 -6.0008
+pedi                 -2.2076
+age                   -0.894
+Intercept             7.9997
+\end{verbatim}
+{\bf R=0.0}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0941
+plas                 -6.9976
+pres                  1.6221
+skin                 -0.0613
+insu                  1.0082
+mass                 -6.0189
+pedi                 -2.2136
+age                  -0.8921
+Intercept             8.0187
+\end{verbatim}
 
 \item %f
+I would expect 3NN to do better than Nearest Neighbor. Averaging over a few points can take care of some improperly labeled points 
 
 \item %g
 
