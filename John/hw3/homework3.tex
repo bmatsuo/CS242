@@ -81,8 +81,33 @@ Weighted Avg. F-Measure & 1  & 0.76  &  0.775 \\
 
 
 \item %b
-I think we might just be able to take the weight vector as the w term, with the intercept as the + bias part of the term.
-TODO: DO THIS ONE!!
+Given the following output from Weka, the weight vecotor \[w=\left\{ -0.1232, -0.0352,   0.0133,  -0.0006,  0.0012, -0.0897,  -0.9452, -0.0149 \right\}\] and the bias is $b=8.4047$. As can be seen in the following python computation this does indeed nearly come to 0.
+
+{\bf Python Computation of one point with probability near 50/50}
+\begin{verbatim}
+In [2]: x=[5,144,82,26,285,32,0.452,58]
+In [5]: w=[-0.1232, -0.0352, 0.0133, -0.0006, 0.0012, -0.0897, -0.9452, -0.0149]
+In [6]: bias= 8.4047
+In [16]: sum([(a*b) for (a,b) in zip(w,x)]) + bias
+Out[16]: -0.024930400000000574
+\end{verbatim}
+
+{\bf Weka's Weight Vector Output}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -0.1232
+plas                 -0.0352
+pres                  0.0133
+skin                 -0.0006
+insu                  0.0012
+mass                 -0.0897
+pedi                 -0.9452
+age                  -0.0149
+Intercept             8.4047
+\end{verbatim}
+
 
 
 \item %c
@@ -114,9 +139,8 @@ Weighted Avg. F-Measure & 0.698   & 0.76  & 0.765  \\
 \item
 The normalize function takes each numeric  attribute and normalizes it relative to the corresponding attribute in the remainder of the samples. After normalization each attribute has some value between 0 and 1 inclusive. 
 \item
-The only method with different accuracy values after normalization was Naive Bayes. TODO: WHY?
-
-\item
+The only method with different accuracy values after normalization was Naive Bayes. Naive Bayes is probably configured to model each attribute with a gaussian distribution. Now that the points are represented on $[0,1]$ it is possible that the tighter spacing of points lead to the classifier having a more difficult time differentiating the classes with some higher level combination of gaussians. 
+\item %f
 
 The weight vectors (shown below) appear to be more extreme after normalization than before normalization. The negative weights are more negative and the positives are more positive. This is probably needed to achieve adequate separation of the data now that it has been compacted into the [0,1] range.
 
