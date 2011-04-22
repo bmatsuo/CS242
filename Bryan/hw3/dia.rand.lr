@@ -1,0 +1,136 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.functions.Logistic -R 1.0E-8 -M -1
+Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Instances:    768
+Attributes:   29
+              rand00
+              rand01
+              rand02
+              rand03
+              rand04
+              rand05
+              rand06
+              rand07
+              rand08
+              rand09
+              rand10
+              rand11
+              rand12
+              rand13
+              rand14
+              rand15
+              rand16
+              rand17
+              rand18
+              rand19
+              preg
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Logistic Regression with ridge parameter of 1.0E-8
+Coefficients...
+                       Class
+Variable     tested_negative
+============================
+rand00                0.0882
+rand01               -0.6304
+rand02               -0.1448
+rand03                0.4826
+rand04                0.0057
+rand05                -0.308
+rand06                0.2803
+rand07                0.7535
+rand08                0.2811
+rand09               -0.1309
+rand10               -0.2224
+rand11                0.4013
+rand12                0.7035
+rand13               -0.3538
+rand14                0.1178
+rand15               -0.0056
+rand16                0.0078
+rand17                0.5386
+rand18               -0.4197
+rand19                0.6002
+preg                 -2.1629
+plas                 -7.1528
+pres                  1.6658
+skin                  0.0188
+insu                  1.0279
+mass                 -6.3538
+pedi                 -2.1861
+age                  -1.0969
+Intercept             7.2967
+
+
+Odds Ratios...
+                       Class
+Variable     tested_negative
+============================
+rand00                1.0922
+rand01                0.5324
+rand02                0.8652
+rand03                1.6203
+rand04                1.0057
+rand05                0.7349
+rand06                1.3235
+rand07                2.1245
+rand08                1.3246
+rand09                0.8773
+rand10                0.8006
+rand11                1.4938
+rand12                2.0209
+rand13                 0.702
+rand14                 1.125
+rand15                0.9944
+rand16                1.0078
+rand17                1.7136
+rand18                0.6573
+rand19                1.8225
+preg                   0.115
+plas                  0.0008
+pres                    5.29
+skin                   1.019
+insu                  2.7953
+mass                  0.0017
+pedi                  0.1124
+age                   0.3339
+
+
+Time taken to build model: 0.29 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         575               74.8698 %
+Incorrectly Classified Instances       193               25.1302 %
+Kappa statistic                          0.4224
+Mean absolute error                      0.3034
+Root mean squared error                  0.3979
+Relative absolute error                 66.7599 %
+Root relative squared error             83.4738 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.856     0.451      0.78      0.856     0.816      0.825    tested_negative
+                 0.549     0.144      0.671     0.549     0.604      0.825    tested_positive
+Weighted Avg.    0.749     0.344      0.742     0.749     0.742      0.825
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 428  72 |   a = tested_negative
+ 121 147 |   b = tested_positive
+
