@@ -1,0 +1,394 @@
+\documentclass[12pt]{article}
+\usepackage{url,graphicx,tabularx,array}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1ex} %--skip lines between paragraphs
+\setlength{\parindent}{0pt} %--don't indent paragraphs
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ amssymb }
+\usepackage{ latexsym }
+\usepackage{ amsmath }
+\usepackage{ amsthm }
+%-- Commands for header
+\renewcommand{\title}[1]{\textbf{#1}\\}
+\renewcommand{\line}{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}\hline\\\end{tabularx}\\[-0.5cm]}
+\newcommand{\leftright}[2]{\begin{tabularx}{\textwidth}{X>{\raggedleft}X}#1%
+& #2\\\end{tabularx}\\[-0.5cm]}
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conjecture}{conjecture}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+%\linespread{2} %-- Uncomment for Double Space
+\begin{document}
+
+\title{Homework 3: CMPS 242}
+\line
+\leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
+\begin{enumerate}
+\item \textbf{Logistic regression:}
+We need to show that $\ln \frac{p(1|x,w)}{p(0|x.w)}=w\cdot x$. We are given that in this case $p(1|w,x) = \frac{e^{w\cdot x}}{1+e^{w \cdot x}}$
+
+\begin{eqnarray*}
+\ln \frac{p(1|x,w)}{p(0|x.w)}
+&=& \ln p(1|w,x) - \ln p(0|w,x) \\
+&=&  \ln \frac{e^{w\cdot x}}{1+e^{w \cdot x}} - \ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+&=&\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ 1-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+&=&\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}}-\frac{e^{w\cdot x}}{1+e^{w \cdot x}}\right] \\
+&=&\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}+ \frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}-\frac{e^{2\cdot w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
+&=&\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln \left[ \frac{e^{w\cdot x}}{e^{w\cdot x}+e^{2\cdot w\cdot x}}\right] \\
+&=&\ln e^{w\cdot x} - \ln \left[ 1 + e^{w\cdot x} \right] -\ln e^{w\cdot x} + \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
+&=& - \ln \left[ 1 + e^{w\cdot x} \right] +  \ln \left[ e^{w\cdot x}+e^{2\cdot w\cdot x} \right] \\
+&=& - \ln \left[ 1 + e^{w\cdot x} \right] + \ln \left[ e^{w\cdot x}\left(1+e^{\cdot w\cdot x}\right) \right]\\
+&=& - \ln \left[ 1 + e^{w\cdot x} \right] + \ln e^{w\cdot x} + \ln \left[1+e^{\cdot w\cdot x}\right] \\
+&=&\ln e^{w\cdot x}\\
+&=& w\cdot x
+\end{eqnarray*}
+
+
+\item \textbf{Weka Experiments: }
+\begin{enumerate}
+\item %a
+The weighted average precision and recall are shown in table~\ref{tab:parta}. Although it is tempting to say that the Nearest Neighbor method is the best, there is a reason it scored perfectly while the others did not. Nearest Neighbor includes each datapoint in its training set, along with the correct label, so when you test on the training set it simply spits the correct labels back out at you. Taking that into consideration it is impossible to say which method was the best. We'll need to evaluate the methods on a different set of data than was used to train to compare the techniques.
+
+
+\begin{table}[htdp]
+\caption{Precision, recall, and F-measure on the training data}
+\begin{center}
+\begin{tabular}{l||c|c|c|}
+               & Nearest & Naive & Logistic  \\
+               & Neighbor &  Bayes & Regression  \\
+               \hline
+Tested Negative Precision & 1 & 0.803 & 0.799 \\
+Tested Negative Recall &1  &  0.842 & 0.89 \\
+Tested Negative F-Measure &  1& 0.822 & 0.842 \\
+Tested Positive Precision & 1 & 0.676 & 0.739 \\
+Tested Positive Recall &1  & 0.616 & 0.582 \\
+Tested Positive F-Measure &  1 & 0.645 & 0.651 \\
+Weighted Avg. Precision & 1 & 0.759 & 0.778\\
+Weighted Avg. Recall & 1 & 0.763 & 0.783 \\
+Weighted Avg. F-Measure & 1  & 0.76  &  0.775 \\
+\end{tabular}
+\end{center}
+\label{tab:parta}
+\end{table}%
+
+
+\item %b
+Given the following output from Weka, the weight vecotor \[w=\left\{ -0.1232, -0.0352,   0.0133,  -0.0006,  0.0012, -0.0897,  -0.9452, -0.0149 \right\}\] and the bias is $b=8.4047$. As can be seen in the following python computation this does indeed nearly come to 0.
+
+{\bf Python Computation of one point with probability near 50/50}
+\begin{verbatim}
+In [2]: x=[5,144,82,26,285,32,0.452,58]
+In [5]: w=[-0.1232, -0.0352, 0.0133, -0.0006, 0.0012, -0.0897, -0.9452, -0.0149]
+In [6]: bias= 8.4047
+In [16]: sum([(a*b) for (a,b) in zip(w,x)]) + bias
+Out[16]: -0.024930400000000574
+\end{verbatim}
+
+{\bf Weka's Weight Vector Output}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -0.1232
+plas                 -0.0352
+pres                  0.0133
+skin                 -0.0006
+insu                  0.0012
+mass                 -0.0897
+pedi                 -0.9452
+age                  -0.0149
+Intercept             8.4047
+\end{verbatim}
+
+
+
+\item %c
+This time since the test set was different from the training set, we can start to get a much more realistic idea of the accuracy of each method, the accuracy results from this run are shown in table~\ref{tab:partc}. Now that the training and test set are different we can see that the Nearest Neighbor technique actually performs the worst on our data while Naive Bayes appears to be the best for a medical setting. Since Diabetes is can lead to very expensive procedures if not treated in a timely fashion, the most important thing is that when you tell someone they are not at risk, they really aren't. If you tell someone that they are at risk but they turn out not to be it isn't as big of a deal. Thus for your negative predictions you want high precision, but more importantly for the positives you want high recall. Naive Bayes has both the highest recall for positives and highest precision for negatives.
+
+\begin{table}[htdp]
+\caption{Precision, recall, and F-measure on 10-fold CV of the data}
+\begin{center}
+\begin{tabular}{l||c|c|c|}
+               & Nearest & Naive & Logistic  \\
+               & Neighbor &  Bayes & Regression  \\
+               \hline
+Tested Negative Precision & 0.759 & 0.802 & 0.793 \\
+Tested Negative Recall & 0.794  & 0.763 & 0.88 \\
+Tested Negative F-Measure & 0.776 & 0.823 & 0.834 \\
+Tested Positive Precision & 0.58 & 0.759  & 0.718 \\
+Tested Positive Recall & 0.53 & 0.612 & 0.571 \\
+Tested Positive F-Measure &  0.554 & 0.643 & 0.636  \\
+Weighted Avg. Precision & 0.696 & 0.759 & 0.767\\
+Weighted Avg. Recall & 0.702  & 0.763 & 0.772 \\
+Weighted Avg. F-Measure & 0.698   & 0.76  & 0.765  \\
+\end{tabular}
+\end{center}
+\label{tab:partc}
+\end{table}%
+
+\item %d
+\begin{enumerate}
+\item
+The normalize function takes each numeric  attribute and normalizes it relative to the corresponding attribute in the remainder of the samples. After normalization each attribute has some value between 0 and 1 inclusive. 
+\item
+The only method with different accuracy values after normalization was Naive Bayes. Naive Bayes is probably configured to model each attribute with a gaussian distribution. Now that the points are represented on $[0,1]$ it is possible that the tighter spacing of points lead to the classifier having a more difficult time differentiating the classes with some higher level combination of gaussians. 
+\item %f
+
+The weight vectors (shown below) appear to be more extreme after normalization than before normalization. The negative weights are more negative and the positives are more positive. This is probably needed to achieve adequate separation of the data now that it has been compacted into the [0,1] range.
+
+
+{\bf Weight Vector before normalization:}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -0.1232
+plas                 -0.0352
+pres                  0.0133
+skin                 -0.0006
+insu                  0.0012
+mass                 -0.0897
+pedi                 -0.9452
+age                  -0.0149
+Intercept             8.4047
+\end{verbatim}
+
+{\bf Weight Vector after normalization:}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0941
+plas                 -6.9976
+pres                  1.6221
+skin                 -0.0613
+insu                  1.0082
+mass                 -6.0189
+pedi                 -2.2136
+age                  -0.8921
+Intercept             8.0187
+
+\end{verbatim}
+
+\end{enumerate}
+
+\item %e
+As can be clearly seen, to 4 significant digits, the weight vector doesn't change between the default value of R=$1\times10^{-8}$ and R=0.0. When R is increased to 0.1 though the weight vector does change slightly, as does the intercept. The accuracy for all values of R I have tried is the same.
+
+
+
+{\bf R=0.1}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0877
+plas                 -6.9767
+pres                  1.6139
+skin                 -0.0602
+insu                  0.9985
+mass                 -6.0008
+pedi                 -2.2076
+age                   -0.894
+Intercept             7.9997
+\end{verbatim}
+{\bf R=0.0}
+\begin{verbatim}
+                       Class
+Variable     tested_negative
+============================
+preg                 -2.0941
+plas                 -6.9976
+pres                  1.6221
+skin                 -0.0613
+insu                  1.0082
+mass                 -6.0189
+pedi                 -2.2136
+age                  -0.8921
+Intercept             8.0187
+\end{verbatim}
+
+\item %f
+I would expect 3NN to do better than Nearest Neighbor. Averaging over a few points can take care of some improperly labeled points. Indeed it appears from the results below that for many measures of accuracy, 3NN is an improvement over 1NN and 5NN is even a little better than 3NN.
+
+{\bf 1NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area 
+                 0.794     0.47       0.759     0.794     0.776      0.662  
+                 0.53      0.206      0.58      0.53      0.554      0.662    
+Weighted Avg.    0.702     0.378      0.696     0.702     0.698      0.662
+\end{verbatim}
+
+{\bf 3NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area 
+                 0.82      0.448      0.774     0.82      0.796      0.742   
+                 0.552     0.18       0.622     0.552     0.585      0.742   
+Weighted Avg.    0.727     0.354      0.721     0.727     0.722      0.742
+\end{verbatim}
+
+{\bf 5NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  
+                 0.836     0.463      0.771     0.836     0.802      0.766    
+                 0.537     0.164      0.637     0.537     0.583      0.766    
+Weighted Avg.    0.732     0.358      0.724     0.732     0.726      0.766
+\end{verbatim}
+
+\item %g
+
+    We duplicated the `preg' attribute 10 times (so each instance vector has
+    11 total copies of `preg' in it). After loading the new training set into
+    Weka, we normalized the data and ran all the classifiers on it.
+
+    One would expect the Naive Bayes algorithm to decrease in performance,
+    because of its assumption that features are independent of each other.
+    In this part of the problem, the duplicated feature value act as highly
+    (perfectly) correlated features.
+
+    One also would expect this to hurt the performance of the nearest
+    neighbor algorithms. This is because the distance function of two instances
+    becomes dominated by the difference of the duplicated attribute. For
+    example, the vector $(1,2)$ is a distance of 2 away from $(1,0)$. But, the
+    distance between vectors $(1,2,2,2)$ and $(1,0,0,0)$ is about 3.46.
+    On the other hand the distance between $(1,1,1,2)$ and $(1,1,1,0)$ is
+    still only 2. So the duplication has distorted the instance space.
+    Things that were once close can now appear far away and other things
+    which were far away can appear no farther away than before. It's hard to
+    say exactly how NN would react to value which are merely somewhat correlated
+    (possibly negatively) and not exact duplicates of each other, but the story
+    is probably similar. These correlations probably still act as if they are
+    distorting the space in some way.
+
+    There seems to be little reason for the logistic regression algorithm to
+    perform worse with duplicated attributes. This does not break any
+    assumptions made by the algorithm. The logistic regression algorithm
+    only assumes independence of the feature vectors from one another, and
+    not independence of the feature values of a single vector.
+
+    This is exactly what we see in the data. The logistic regression has no
+    significant change in its accuracy. Naive Bayes performs worse in every
+    aspect except its recall on positive instances, which is 0.1 lower than
+    it was originally. The nearest neighbor algorithm has similar performance
+    relative to the original dataset. The nearest neighbor algorithms had
+    better recall on both positive and negative instances, but lower
+    precision across the board.
+
+    Clearly, logistic regression performed the best on this modified dataset.
+    To say who suffered the worst would require a strict definition of
+    'badness', but it would probably be Naive Bayes.
+
+{\bf Logistic Regression}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.88      0.429      0.793     0.88      0.834      0.832
+                0.571     0.12       0.718     0.571     0.636      0.832
+Weighted Avg.   0.772     0.321      0.767     0.772     0.765      0.832
+\end{verbatim}
+{\bf Naive Bayes}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.784     0.489      0.75      0.784     0.766      0.754
+                0.511     0.216      0.559     0.511     0.534      0.754
+Weighted Avg.   0.689     0.394      0.683     0.689     0.685      0.754
+\end{verbatim}
+{\bf Nearest Neighbor}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.762     0.526      0.73      0.762     0.746      0.618
+                0.474     0.238      0.516     0.474     0.494      0.618
+Weighted Avg.   0.661     0.426      0.655     0.661     0.658      0.618
+\end{verbatim}
+{\bf 3 Nearest Neighbors}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.802     0.511      0.745     0.802     0.773      0.706
+                0.489     0.198      0.57      0.489     0.526      0.706
+Weighted Avg.   0.693     0.402      0.684     0.693     0.687      0.706
+\end{verbatim}
+{\bf 5 Nearest Neighbors}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.822     0.526      0.745     0.822     0.781      0.737
+                0.474     0.178      0.588     0.474     0.525      0.737
+Weighted Avg.   0.701     0.405      0.69      0.701     0.692      0.737
+\end{verbatim}
+
+\item %h
+
+    When random attributes are added to the feature vectors, Naive Bayes should
+    not be affected. This randomness is not correlated to the class or other
+    features (including other randomness).
+
+    Nearest neighbor will likely be affected somewhat significantly. Random
+    features add noise into the distance measure between two features.
+    If $x_1$ and $x_2$ are instances in the original space (no added features)
+    and their (euclidean) distance is $\delta$ then the squared distance between
+    $x_1'$ and $x_2'$, the same vectors with $k$ i.i.d. random features is
+    some $\delta + Z$ where $Z$ is a random variable. As $k$ increases, by the
+    central limit theorem, $Z$ approaches a gaussian distribution with variance
+    that increases with $k$. In the 1-norm case, the additive noise to the
+    distance has variance approximately $k\sigma$ where $\sigma$ is the
+    variance of one of the random features.
+
+Nearest Neighbor suffered a fairly significant accuracy hit, the weighted average F-measure went down from 0.698 to 0.595. With logistic regression the weighted average F-measure went from 0.765 down to  0.742. While Naive Bayes remained relatively unchanged right around 0.76 for its F-measure. So in order NN suffers the most from randomized attributes, logistic regression suffers less and naive bayes suffers the least.
+
+{\bf Logistic Regression}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.856     0.451      0.78      0.856     0.816      0.825
+                0.549     0.144      0.671     0.549     0.604      0.825
+Weighted Avg.   0.749     0.344      0.742     0.749     0.742      0.825
+\end{verbatim}
+{\bf Naive Bayes}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.856     0.403      0.799     0.856     0.826      0.82
+                0.597     0.144      0.69      0.597     0.64       0.82
+Weighted Avg.   0.766     0.313      0.761     0.766     0.761      0.82 
+\end{verbatim}
+{\bf Nearest Neighbor}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.746     0.657      0.679     0.746     0.711      0.545
+                0.343     0.254      0.42      0.343     0.378      0.545
+Weighted Avg.   0.605     0.516      0.589     0.605     0.595      0.545
+\end{verbatim}
+{\bf 3 Nearest Neighbors}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.808     0.709      0.68      0.808     0.739      0.591
+                0.291     0.192      0.448     0.291     0.353      0.591
+Weighted Avg.   0.628     0.529      0.599     0.628     0.604      0.591
+\end{verbatim}
+{\bf 5 Nearest Neighbors}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+              TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                0.884     0.75       0.687     0.884     0.773      0.601
+                0.25      0.116      0.536     0.25      0.341      0.601
+Weighted Avg.   0.663     0.529      0.635     0.663     0.623      0.601
+\end{verbatim}
+
+\end{enumerate}
+\end{enumerate}
+\end{document}
