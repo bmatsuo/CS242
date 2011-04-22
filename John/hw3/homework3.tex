@@ -217,7 +217,35 @@ Intercept             8.0187
 \end{verbatim}
 
 \item %f
-I would expect 3NN to do better than Nearest Neighbor. Averaging over a few points can take care of some improperly labeled points 
+I would expect 3NN to do better than Nearest Neighbor. Averaging over a few points can take care of some improperly labeled points. Indeed it appears from the results below that for many measures of accuracy, 3NN is an improvement over 1NN and 5NN is even a little better than 3NN.
+
+{\bf 1NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area 
+                 0.794     0.47       0.759     0.794     0.776      0.662  
+                 0.53      0.206      0.58      0.53      0.554      0.662    
+Weighted Avg.    0.702     0.378      0.696     0.702     0.698      0.662
+\end{verbatim}
+
+{\bf 3NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area 
+                 0.82      0.448      0.774     0.82      0.796      0.742   
+                 0.552     0.18       0.622     0.552     0.585      0.742   
+Weighted Avg.    0.727     0.354      0.721     0.727     0.722      0.742
+\end{verbatim}
+
+{\bf 5NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  
+                 0.836     0.463      0.771     0.836     0.802      0.766    
+                 0.537     0.164      0.637     0.537     0.583      0.766    
+Weighted Avg.    0.732     0.358      0.724     0.732     0.726      0.766
+\end{verbatim}
+
 
 \item %g
 
