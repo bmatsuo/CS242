@@ -250,7 +250,7 @@ Weighted Avg.    0.732     0.358      0.724     0.732     0.726      0.766
 
 \item %h
 
-Nearest Neighbor suffered a fairly significant accuracy hit, the weighted average F-measure went down from 0.698 to 0.595. With logistic regression the weighted average F-measure went from 0.765 down to  0.742. While Naive Bayes remained relatively unchanged right around 0.76 for its F-measure. So in order NN suffers the most from randomized attributes, logistic regression suffers less and naive bayes suffers the least. The nearest neighbor method probably took the greatest performance hit because it doesn't incorporate any weighting of the features, so it will not just learn to ignore the random feature. Logistic regression can kind of get around the noisy features by giving them lower weights. 
+Nearest Neighbor suffered a fairly significant accuracy hit, the weighted average F-measure went down from 0.698 to 0.595. With logistic regression the weighted average F-measure went from 0.765 down to  0.742. While Naive Bayes remained relatively unchanged right around 0.76 for its F-measure. So in order NN suffers the most from randomized attributes, logistic regression suffers less and naive bayes suffers the least. The nearest neighbor method probably took the greatest performance hit because it doesn't incorporate any weighting of the features, so it will not just learn to ignore the random feature. Logistic regression can kind of get around the noisy features by giving them lower weights. Naive Bayes on the other hand will learn that certain variables are just noise when the distribution of the variable given one class converges on being identical to the distribution given the other class.
 
 {\bf Nearest Neighbor}
 \begin{verbatim}
