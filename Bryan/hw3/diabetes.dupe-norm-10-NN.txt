@@ -1,7 +1,7 @@
 === Run information ===
 
 Scheme:       weka.classifiers.lazy.IB1 
-Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Relation:     pima_diabetes
 Instances:    768
 Attributes:   19
               preg0

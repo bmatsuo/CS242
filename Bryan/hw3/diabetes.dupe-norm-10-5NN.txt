@@ -1,0 +1,60 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.lazy.IBk -K 5 -W 0 -A "weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\""
+Relation:     pima_diabetes
+Instances:    768
+Attributes:   19
+              preg0
+              preg1
+              preg2
+              preg3
+              preg4
+              preg5
+              preg6
+              preg7
+              preg8
+              preg9
+              preg10
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+IB1 instance-based classifier
+using 5 nearest neighbour(s) for classification
+
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         538               70.0521 %
+Incorrectly Classified Instances       230               29.9479 %
+Kappa statistic                          0.3098
+Mean absolute error                      0.3355
+Root mean squared error                  0.4482
+Relative absolute error                 73.819  %
+Root relative squared error             94.0362 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.822     0.526      0.745     0.822     0.781      0.737    tested_negative
+                 0.474     0.178      0.588     0.474     0.525      0.737    tested_positive
+Weighted Avg.    0.701     0.405      0.69      0.701     0.692      0.737
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 411  89 |   a = tested_negative
+ 141 127 |   b = tested_positive
+

@@ -1,0 +1,68 @@
+\documentclass[11pt]{article}
+
+\usepackage{fullpage,latexsym,amsthm,amsmath,algorithmic,graphicx,subfigure,color,verbatim,epsfig,fancyhdr,multicol}
+%\usepackage[normalmargins]{savetrees}
+
+% Define new commands.
+\newtheorem{defn}{Definition}%[section]
+\newtheorem{conjecture}{conjecture}%[section]
+\newtheorem{lemma}{Lemma}%[section]
+\newtheorem{corollary}{Corollary}%[section]
+\newtheorem{question}{Question}%[section]
+\newtheorem{proposition}{Proposition}%[section]
+
+\newcommand{\thmref}[1]{\ref{theorem: #1}}
+\newcommand{\lemref}[1]{\ref{lemma: #1}}
+\newcommand{\propref}[1]{\ref{proposition: #1}}
+\newcommand{\conjref}[1]{\ref{conjecture: #1}}
+\newcommand{\questref}[1]{\ref{question: #1}}
+\newcommand{\eqnref}[1]{\ref{equation: #1}}
+\newcommand{\figref}[1]{\ref{figure: #1}}
+\newcommand{\algref}[1]{\ref{algorithm: #1}}
+\newcommand{\tabref}[1]{\ref{table: #1}}
+
+%\newcommand{\abcitem}{\item[\alph({alphaenum})]\stepcounter{alphaenum}}
+\newcounter{alphaenum}
+\newenvironment{abclist}
+    { \begin{list}{(\alph{alphaenum}) ~} { \setcounter{alphaenum}{1} \usecounter{alphaenum} } }
+    { \end{list} }
+
+
+\begin{document}
+
+% Make the document title.
+\title{CMPS 242 - Spring 2011 - Homework assignment \#3}
+\author{ {Bryan Matsuo}\\
+{Department of Computer Science, UCSC}}
+%\date{\today}
+\maketitle
+
+\begin{enumerate}
+\item \textbf{Logistic regression:}
+
+\item \textbf{Weka Experiments:}
+
+\begin{enumerate}
+\item %a
+
+\item %b
+
+\item %c
+
+\item %d
+
+\item %e
+
+\item %f
+
+\item %g
+
+    We duplicated the `preg' attribute 10 times (so each instance vector has
+    11 total copies of `preg' in it). 
+
+\item %h
+
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

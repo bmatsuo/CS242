@@ -1,7 +1,7 @@
 === Run information ===
 
 Scheme:       weka.classifiers.lazy.IB1 
-Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Relation:     pima_diabetes
 Instances:    768
 Attributes:   29
               rand00
@@ -39,7 +39,7 @@ Test mode:    10-fold cross-validation
 
 IB1 classifier
 
-Time taken to build model: 0.01 seconds
+Time taken to build model: 0 seconds
 
 === Stratified cross-validation ===
 === Summary ===

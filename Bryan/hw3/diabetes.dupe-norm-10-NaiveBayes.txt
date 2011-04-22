@@ -1,0 +1,172 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.bayes.NaiveBayes 
+Relation:     pima_diabetes
+Instances:    768
+Attributes:   19
+              preg0
+              preg1
+              preg2
+              preg3
+              preg4
+              preg5
+              preg6
+              preg7
+              preg8
+              preg9
+              preg10
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+Naive Bayes Classifier
+
+                         Class
+Attribute      tested_negative tested_positive
+                        (0.65)          (0.35)
+===============================================
+preg0
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg1
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg2
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg3
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg4
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg5
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg6
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg7
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg8
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg9
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+preg10
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
+  weight sum                500             268
+  precision              1.0625          1.0625
+
+plas
+  mean                 109.9541        141.2581
+  std. dev.             26.1114         31.8728
+  weight sum                500             268
+  precision              1.4741          1.4741
+
+pres
+  mean                  68.1397          70.718
+  std. dev.             17.9834         21.4094
+  weight sum                500             268
+  precision              2.6522          2.6522
+
+skin
+  mean                  19.8356         22.2824
+  std. dev.             14.8974         17.6992
+  weight sum                500             268
+  precision                1.98            1.98
+
+insu
+  mean                  68.8507        100.2812
+  std. dev.              98.828        138.4883
+  weight sum                500             268
+  precision               4.573           4.573
+
+mass
+  mean                  30.3009         35.1475
+  std. dev.              7.6833          7.2537
+  weight sum                500             268
+  precision              0.2717          0.2717
+
+pedi
+  mean                   0.4297          0.5504
+  std. dev.              0.2986          0.3715
+  weight sum                500             268
+  precision              0.0045          0.0045
+
+age
+  mean                  31.2494         37.0808
+  std. dev.             11.6059         10.9146
+  weight sum                500             268
+  precision              1.1765          1.1765
+
+
+
+Time taken to build model: 0.02 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         529               68.8802 %
+Incorrectly Classified Instances       239               31.1198 %
+Kappa statistic                          0.3012
+Mean absolute error                      0.312 
+Root mean squared error                  0.5249
+Relative absolute error                 68.6374 %
+Root relative squared error            110.1321 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.784     0.489      0.75      0.784     0.766      0.754    tested_negative
+                 0.511     0.216      0.559     0.511     0.534      0.754    tested_positive
+Weighted Avg.    0.689     0.394      0.683     0.689     0.685      0.754
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 392 108 |   a = tested_negative
+ 131 137 |   b = tested_positive
+

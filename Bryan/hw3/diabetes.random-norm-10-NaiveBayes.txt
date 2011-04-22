@@ -1,7 +1,7 @@
 === Run information ===
 
 Scheme:       weka.classifiers.bayes.NaiveBayes 
-Relation:     pima_diabetes-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0
+Relation:     pima_diabetes
 Instances:    768
 Attributes:   29
               rand00
@@ -44,199 +44,199 @@ Attribute      tested_negative tested_positive
                         (0.65)          (0.35)
 ===============================================
 rand00
-  mean                   0.5292          0.5047
-  std. dev.              0.2818          0.2961
+  mean                   0.5287          0.5042
+  std. dev.              0.2816          0.2958
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand01
-  mean                   0.4835          0.5158
-  std. dev.              0.2822          0.2855
+  mean                   0.4867          0.5187
+  std. dev.              0.2804          0.2837
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand02
-  mean                   0.5006          0.4981
-  std. dev.              0.2856          0.3016
+  mean                   0.5005           0.498
+  std. dev.              0.2856          0.3015
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand03
-  mean                   0.5172          0.4972
-  std. dev.               0.283          0.2914
+  mean                   0.5171          0.4971
+  std. dev.              0.2827          0.2911
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand04
-  mean                   0.5025          0.5078
-  std. dev.              0.2886          0.2869
+  mean                   0.5028          0.5081
+  std. dev.              0.2879          0.2863
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand05
-  mean                   0.4781           0.506
-  std. dev.              0.2862           0.292
+  mean                   0.4785          0.5062
+  std. dev.              0.2845          0.2902
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand06
-  mean                   0.4956          0.4764
-  std. dev.              0.2967          0.2874
+  mean                   0.4948          0.4758
+  std. dev.              0.2956          0.2865
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand07
-  mean                   0.5067          0.4538
-  std. dev.               0.296          0.2857
+  mean                   0.5056          0.4528
+  std. dev.              0.2951          0.2849
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand08
-  mean                    0.535          0.5234
-  std. dev.              0.2906          0.2963
+  mean                   0.5353          0.5237
+  std. dev.              0.2903          0.2961
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand09
-  mean                   0.4796          0.4892
-  std. dev.              0.2914          0.2919
+  mean                   0.4795          0.4891
+  std. dev.              0.2911          0.2917
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand10
-  mean                   0.4941          0.5029
-  std. dev.              0.2885           0.275
+  mean                   0.4955          0.5043
+  std. dev.              0.2875          0.2741
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand11
-  mean                   0.5028          0.4741
-  std. dev.               0.291          0.2759
+  mean                   0.5013          0.4728
+  std. dev.                0.29           0.275
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand12
-  mean                   0.5058          0.4649
-  std. dev.              0.2847          0.2818
+  mean                   0.5046          0.4639
+  std. dev.              0.2834          0.2805
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand13
-  mean                   0.4918           0.514
-  std. dev.              0.2831          0.2967
+  mean                   0.4908          0.5129
+  std. dev.              0.2822          0.2957
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand14
-  mean                   0.4918          0.4926
-  std. dev.              0.2873          0.2928
+  mean                   0.4926          0.4933
+  std. dev.              0.2863          0.2918
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand15
   mean                   0.4621          0.4924
-  std. dev.              0.2902          0.2908
+  std. dev.                0.29          0.2906
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand16
-  mean                   0.5103          0.5121
-  std. dev.              0.2874          0.2901
+  mean                   0.5096          0.5114
+  std. dev.               0.287          0.2897
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand17
-  mean                   0.5121          0.4736
-  std. dev.               0.297          0.2872
+  mean                   0.5117          0.4732
+  std. dev.              0.2964          0.2865
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand18
-  mean                   0.4888          0.5279
-  std. dev.              0.2815          0.2907
+  mean                   0.4891          0.5281
+  std. dev.              0.2811          0.2903
   weight sum                500             268
   precision              0.0013          0.0013
 
 rand19
-  mean                   0.5191          0.4841
-  std. dev.              0.2976          0.2857
+  mean                   0.5175          0.4827
+  std. dev.               0.296          0.2842
   weight sum                500             268
   precision              0.0013          0.0013
 
 preg
-  mean                   0.2014          0.2929
-  std. dev.              0.1774          0.2166
+  mean                   3.4234          4.9795
+  std. dev.              3.0166          3.6827
   weight sum                500             268
-  precision              0.0625          0.0625
+  precision              1.0625          1.0625
 
 plas
-  mean                   0.5525          0.7098
-  std. dev.              0.1312          0.1602
+  mean                 109.9541        141.2581
+  std. dev.             26.1114         31.8728
   weight sum                500             268
-  precision              0.0074          0.0074
+  precision              1.4741          1.4741
 
 pres
-  mean                   0.5585          0.5797
-  std. dev.              0.1474          0.1755
+  mean                  68.1397          70.718
+  std. dev.             17.9834         21.4094
   weight sum                500             268
-  precision              0.0217          0.0217
+  precision              2.6522          2.6522
 
 skin
-  mean                   0.2004          0.2251
-  std. dev.              0.1505          0.1788
+  mean                  19.8356         22.2824
+  std. dev.             14.8974         17.6992
   weight sum                500             268
-  precision                0.02            0.02
+  precision                1.98            1.98
 
 insu
-  mean                   0.0814          0.1185
-  std. dev.              0.1168          0.1637
+  mean                  68.8507        100.2812
+  std. dev.              98.828        138.4883
   weight sum                500             268
-  precision              0.0054          0.0054
+  precision               4.573           4.573
 
 mass
-  mean                   0.4516          0.5238
-  std. dev.              0.1145          0.1081
+  mean                  30.3009         35.1475
+  std. dev.              7.6833          7.2537
   weight sum                500             268
-  precision               0.004           0.004
+  precision              0.2717          0.2717
 
 pedi
-  mean                   0.1502          0.2017
-  std. dev.              0.1275          0.1587
+  mean                   0.4297          0.5504
+  std. dev.              0.2986          0.3715
   weight sum                500             268
-  precision              0.0019          0.0019
+  precision              0.0045          0.0045
 
 age
-  mean                   0.1704          0.2673
-  std. dev.              0.1937          0.1825
+  mean                  31.2494         37.0808
+  std. dev.             11.6059         10.9146
   weight sum                500             268
-  precision              0.0196          0.0196
+  precision              1.1765          1.1765
 
 
 
-Time taken to build model: 0.05 seconds
+Time taken to build model: 0.04 seconds
 
 === Stratified cross-validation ===
 === Summary ===
 
-Correctly Classified Instances         589               76.6927 %
-Incorrectly Classified Instances       179               23.3073 %
-Kappa statistic                          0.4701
-Mean absolute error                      0.2806
-Root mean squared error                  0.415 
-Relative absolute error                 61.745  %
-Root relative squared error             87.0638 %
+Correctly Classified Instances         588               76.5625 %
+Incorrectly Classified Instances       180               23.4375 %
+Kappa statistic                          0.4676
+Mean absolute error                      0.2804
+Root mean squared error                  0.4147
+Relative absolute error                 61.6879 %
+Root relative squared error             87.0055 %
 Total Number of Instances              768     
 
 === Detailed Accuracy By Class ===
 
                TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
-                 0.858     0.403      0.799     0.858     0.827      0.819    tested_negative
-                 0.597     0.142      0.693     0.597     0.641      0.819    tested_positive
-Weighted Avg.    0.767     0.312      0.762     0.767     0.762      0.819
+                 0.856     0.403      0.799     0.856     0.826      0.82     tested_negative
+                 0.597     0.144      0.69      0.597     0.64       0.82     tested_positive
+Weighted Avg.    0.766     0.313      0.761     0.766     0.761      0.82 
 
 === Confusion Matrix ===
 
    a   b   <-- classified as
- 429  71 |   a = tested_negative
+ 428  72 |   a = tested_negative
  108 160 |   b = tested_positive
 

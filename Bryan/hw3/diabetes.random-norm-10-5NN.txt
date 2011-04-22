@@ -1,0 +1,70 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.lazy.IBk -K 5 -W 0 -A "weka.core.neighboursearch.LinearNNSearch -A \"weka.core.EuclideanDistance -R first-last\""
+Relation:     pima_diabetes
+Instances:    768
+Attributes:   29
+              rand00
+              rand01
+              rand02
+              rand03
+              rand04
+              rand05
+              rand06
+              rand07
+              rand08
+              rand09
+              rand10
+              rand11
+              rand12
+              rand13
+              rand14
+              rand15
+              rand16
+              rand17
+              rand18
+              rand19
+              preg
+              plas
+              pres
+              skin
+              insu
+              mass
+              pedi
+              age
+              class
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+IB1 instance-based classifier
+using 5 nearest neighbour(s) for classification
+
+
+Time taken to build model: 0 seconds
+
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances         509               66.276  %
+Incorrectly Classified Instances       259               33.724  %
+Kappa statistic                          0.1529
+Mean absolute error                      0.3995
+Root mean squared error                  0.4888
+Relative absolute error                 87.9058 %
+Root relative squared error            102.5477 %
+Total Number of Instances              768     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.884     0.75       0.687     0.884     0.773      0.601    tested_negative
+                 0.25      0.116      0.536     0.25      0.341      0.601    tested_positive
+Weighted Avg.    0.663     0.529      0.635     0.663     0.623      0.601
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 442  58 |   a = tested_negative
+ 201  67 |   b = tested_positive
+
