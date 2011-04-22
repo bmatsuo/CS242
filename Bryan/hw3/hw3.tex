@@ -58,7 +58,85 @@
 \item %g
 
     We duplicated the `preg' attribute 10 times (so each instance vector has
-    11 total copies of `preg' in it). 
+    11 total copies of `preg' in it). After loading the new training set into
+    Weka, we normalized the data and ran all the classifiers on it.
+
+    One would expect the Naive Bayes algorithm to decrease in performance,
+    because of its assumption that features are independent of each other.
+    In this part of the problem, the duplicated feature value act as highly
+    (perfectly) correlated features.
+
+    One also would expect this to hurt the performance of the nearest
+    neighbor algorithms. This is because the distance function of two instances
+    becomes dominated by the difference of the duplicated attribute. For
+    example, the vector $(1,2)$ is a distance of 2 away from $(1,0)$. But, the
+    distance between vectors $(1,2,2,2)$ and $(1,0,0,0)$ is about 3.46.
+    On the other hand the distance between $(1,1,1,2)$ and $(1,1,1,0)$ is
+    still only 2. So the duplication has distorted the instance space.
+    Things that were once close can now appear far away and other things
+    which were far away can appear no farther away than before. It's hard to
+    say exactly how NN would react to value which are merely somewhat correlated
+    (possibly negatively) and not exact duplicates of each other, but the story
+    is probably similar. These correlations probably still act as if they are
+    distorting the space in some way.
+
+    There seems to be little reason for the logistic regression algorithm to
+    perform worse with duplicated attributes. This does not break any
+    assumptions made by the algorithm. The logistic regression algorithm
+    only assumes independence of the feature vectors from one another, and
+    not independence of the feature values of a single vector.
+
+    This is exactly what we see in the data. The logistic regression has no
+    significant change in its accuracy. Naive Bayes performs worse in every
+    aspect except its recall on positive instances, which is 0.1 lower than
+    it was originally. The nearest neighbor algorithm has similar performance
+    relative to the original dataset. The nearest neighbor algorithms had
+    better recall on both positive and negative instances, but lower
+    precision across the board.
+
+    Clearly, logistic regression performed the best on this modified dataset.
+    
+
+{\bf Logistic}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                 0.88      0.429      0.793     0.88      0.834      0.832
+                 0.571     0.12       0.718     0.571     0.636      0.832
+Weighted Avg.    0.772     0.321      0.767     0.772     0.765      0.832
+\end{verbatim}
+{\bf NaiveBayes}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                 0.784     0.489      0.75      0.784     0.766      0.754
+                 0.511     0.216      0.559     0.511     0.534      0.754
+Weighted Avg.    0.689     0.394      0.683     0.689     0.685      0.754
+\end{verbatim}
+{\bf NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                 0.762     0.526      0.73      0.762     0.746      0.618
+                 0.474     0.238      0.516     0.474     0.494      0.618
+Weighted Avg.    0.661     0.426      0.655     0.661     0.658      0.618
+\end{verbatim}
+{\bf 3NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                 0.802     0.511      0.745     0.802     0.773      0.706
+                 0.489     0.198      0.57      0.489     0.526      0.706
+Weighted Avg.    0.693     0.402      0.684     0.693     0.687      0.706
+\end{verbatim}
+{\bf 5NN}
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area
+                 0.822     0.526      0.745     0.822     0.781      0.737
+                 0.474     0.178      0.588     0.474     0.525      0.737
+Weighted Avg.    0.701     0.405      0.69      0.701     0.692      0.737
+\end{verbatim}
 
 \item %h
 
