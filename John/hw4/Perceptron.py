@@ -103,12 +103,13 @@ if __name__ == '__main__':
     import random
     
     
-    if len(sys.argv) < 3:
-        sys.stderr.write("\nUsage:%s REQUIRED: train.txt test.txt OPTIONAL: [Test Function(one of:'last','longest','voted','last50') default: 'last'] [# training iterations, default: 1]\n\n"%(sys.argv[0]))
+    if len(sys.argv) < 4:
+        sys.stderr.write("\nUsage:%s REQUIRED: train.txt test.txt train.log OPTIONAL:[# training iterations, default: 1] [Test Function(one of:'last','longest','voted','last50') default: 'last']\n\n"%(sys.argv[0]))
         sys.exit(1)
     
     train = open(sys.argv[1],'r')
     test = open(sys.argv[2],'r')
+    trainLog = open(sys.argv[3],'r')
     
     perceptron = Perceptron()
     
@@ -116,7 +117,10 @@ if __name__ == '__main__':
     testFunction = perceptron.lastHypothesisClassify
     trainItter = 1
     
-    if len(sys.argv) > 3:
+    if len(sys.argv) > 4:
+        trainItter = int(sys.argv[4])
+        
+    if len(sys.argv) > 5:
         arg = sys.argv[3]
         if arg == 'last':
             testFunction = perceptron.lastHypothesisClassify
@@ -129,8 +133,6 @@ if __name__ == '__main__':
         else:
             sys.stderr.write("\nError: Do not recognize test function: %s, run again with no args for help.\n\n"%arg)
             sys.exit(1)
-    if len(sys.argv) > 4:
-        trainItter = int(sys.argv[4])
 
     trainData = []
     testData = []
