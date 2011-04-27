@@ -1,0 +1,11 @@
+To run:
+python Perceptrion.py train.txt test.txt voted 5
+
+for example performs 5 randomized iterations through the training set,
+and then attempts to classify all of the instances in the test set
+using the 'voted' method.
+
+run without arguments to see more help
+
+
+
