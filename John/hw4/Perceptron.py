@@ -104,7 +104,7 @@ if __name__ == '__main__':
     
     
     if len(sys.argv) < 4:
-        sys.stderr.write("\nUsage:%s REQUIRED: train.txt test.txt train.log OPTIONAL:[# training iterations, default: 1] [Test Function(one of:'last','longest','voted','last50') default: 'last']\n\n"%(sys.argv[0]))
+        sys.stderr.write("\nUsage:%s REQUIRED: train.txt test.txt train.log OPTIONAL:[# training iterations, default: 1] [Test Function(one of:'last','longest','voted','last50') default: 'last'] >output.txt\n\n"%(sys.argv[0]))
         sys.exit(1)
     
     train = open(sys.argv[1],'r')
@@ -147,7 +147,7 @@ if __name__ == '__main__':
             x2 = float(line[1])
             label = int(line[2])
             trainData.append((x1,x2,label))
-            
+    train.close()
     for line in test:
         line = line.split()
         if line:
@@ -155,14 +155,16 @@ if __name__ == '__main__':
             x2 = float(line[1])
             label = int(line[2])
             testData.append((x1,x2,label))
+    test.close()
     
     #train the perceptron on the set of data
+    trainLog.write("#x1\tx2\tlabel\tpred\n")
     for i in range(trainItter):
         if i > 0: #shuffle after first iteration through the data
             random.shuffle(trainData)
-        
+        trainLog.write("")
         for (x1,x2,label) in trainData:
-            perceptron.train(x1, x2, label)
+            trainLog.write("%.3f\t.3f\t%d\t%d\n"%(x1,x2,label,perceptron.train(x1, x2, label)))
     
     #run tests, to standard out write the following
     print("#x1\tx2\tlabel\tpred")
