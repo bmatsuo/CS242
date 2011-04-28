@@ -110,9 +110,10 @@ if __name__ == '__main__':
         make_option("--log", "-L", dest="log_file", default='pa.log',
             help="Log filename (default: 'pa.log')"),
         make_option("--rule", '-r', dest="rule", default='last',
-            help="Prediction rule ('last' (default),'longest','voted','last50')."),
+            help="Prediction rule ('last'(default), 'longest', 'voted', 'last50')."),
         make_option('--consistent', '-c', action='store_true', dest='want_consistent',
-            help='Loop over the training set until a consistent weight vector is found'),
+            help='Loop over the training set until a consistent weight vector is found.'
+                +' This overrides the -T option.'),
         make_option("--iterations", "-T", type='int', dest='iterations', default=1,
             help="Number of training iterations (default: 1).")]
     p = OptionParser(
