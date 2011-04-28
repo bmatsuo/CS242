@@ -57,10 +57,10 @@ for p in pos_points[1:]:
     if opt.verbose or opt.print_rotated:
         print "%f\t%f" % r
     if r[1] < -1.0e-16: Exception('Large negative y value %f' % r[1])
-    if r[0] < left[0]:
+    if r[0] < rleft[0]:
         left = p
         rleft = r
-    if r[0] > right[0]:
+    if r[0] > rright[0]:
         right = p
         rright = r
 
@@ -73,20 +73,25 @@ if opt.verbose:
 # $w = \frac{{\bf x}_\ell + {\bf x}_r}{2}$
 weights = map(lambda lr: (lr[0] + lr[1]) / 2.0, zip(left,right))
 w_norm = sum(map(lambda w:w**2, weights))**0.5
+norm_weights = map(lambda w: w/w_norm, weights)
 if opt.verbose:
-    print "W: (%f, %f) 2-Norm: %f" % (weights[0], weights[1], w_norm)
+    print "W: (%f, %f) 2-Norm: %f Normalized: (%f, %f)" % (
+            weights[0], weights[1], w_norm, weights[0] / w_norm, weights[1] / w_norm)
 
 # $g = \frac{{\bf w} \cdot {\bf x}_\ell}{||w||_2}$
-gap = sum(map(lambda wx: wx[0]*wx[1]/w_norm, zip(weights, left)))
-gap_right = sum(map(lambda wx: wx[0]*wx[1]/w_norm, zip(weights, right)))
+gap = sum(map(lambda wx: wx[0]*wx[1], zip(norm_weights, left)))
+gap_right = sum(map(lambda wx: wx[0]*wx[1], zip(norm_weights, right)))
 
 # There seem to be rounding errors and the gaps are not really THAT close.
 #if abs(gap - gap_right) > 1.0e-15:
 #    raise Exception('Large gap difference %.16f' % abs(gap - gap_right))
 
 if opt.print_gap:
-    print "Gap: %f" % gap
-    if opt.verbose: print "Right gap: %f" % gap_right
-    if opt.verbose: print "Gap delta: %.15f" % abs(gap - gap_right)
+    if opt.verbose:
+        print "Gap: %f Vector: (%f, %f)" % (gap, norm_weights[0]*gap, norm_weights[1]*gap)
+        print "Right gap: %f" % gap_right
+        print "Gap delta: %.15f" % abs(gap - gap_right)
+    else:
+        print "%f" % gap
 
 if not fh is sys.stdin: fh.close()
