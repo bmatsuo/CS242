@@ -83,7 +83,7 @@ dbottom = sum(bottom)/r2
 #the gap is the mean of the two distances
 gap = (dtop+dbottom)/2.0
 
-print("Gap: %f"%gap)
+print("%f"%gap)
 
 
 
