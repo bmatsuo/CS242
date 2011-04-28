@@ -1,11 +1,52 @@
-To run:
-python ./Perceptrion.py train.txt test.txt train.log 5 voted > predictions.txt
+EXPERIMENTS
 
-for example performs 5 randomized iterations through the training set,
-and then attempts to classify all of the instances in the test set
-using the 'voted' method, sending the results to predictions.txt
+Experiment 1:
 
-run without arguments to see more help
+    Generate a training set.
+
+        ./genset.py -n50 > train.txt
+
+    Calculate the gap in the training set.
+
+        ./gap.py train.txt
+
+    Use the Perceptron algorithm to find a consistent hypothesis (dont
+    shuffle the training data for repeatable results).
+
+        ./Perceptron.py -cs train.txt train.txt > experiment1.results
+
+    experiment1.results will contain, on the first few lines, the number
+    of iterations performed until a consistent hypothesis was found and
+    the total number of mistakes made in the process. The file 'pa.log'
+    will contain the Perceptron's training log.
+
+Experiment 2:
 
 
+SCRIPTS
 
+genset.py
+
+    To run:
+        ./genset.py -n100 --noisy
+
+    This will generate 100 test instances (x1,x2 pairs) with noisy labels.
+    Omit the --noisy option for clean labels.
+
+gap.py
+
+    To run:
+        ./gap.py clean-data.txt
+
+    This reads in a training set 'clean-data.txt' with non-noisy labels and
+    computes the optimal separating line with the corresponding gap. It prints
+    the optimal gap to standard output.
+
+Perceptron.py
+
+    To run:
+        ./Perceptrion.py train.txt test.txt --log=train.log -T 5 --rule=voted
+
+    This performs 5 randomized training iterations through the train.txt,
+    and then attempts to classify all of the instances in the test.txt
+    using the 'voted' method, sending the results to predictions.txt
