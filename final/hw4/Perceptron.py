@@ -5,6 +5,8 @@ Created on Apr 26, 2011
 @author: John St. John & Bryan Matsuo
 '''
 
+def signish(val):
+    return 1 if val > 0 else -1
 
 class Perceptron:
     """
@@ -29,7 +31,7 @@ class Perceptron:
         method
         """
         (w1,w2) = self.w[self.i]
-        lpred = cmp((w1*x1+w2*x2),0) #returns -1 or 1
+        lpred = signish(w1*x1+w2*x2)
         if lpred == 0: lpred = -1
         if lpred != label: #need to update weights
             w1 = w1 + (self.lr * label * x1)
@@ -45,7 +47,7 @@ class Perceptron:
         a new instance (and freeze training)
         """
         (w1,w2) = self.w[self.i] 
-        return cmp((w1*x1+w2*x2),0)
+        return signish(w1*x1+w2*x2)
     
     def longestSurvivorClassify(self,x1,x2):
         """
@@ -56,7 +58,7 @@ class Perceptron:
         #identify the longest surviving classifier
         try: #see if we have already done this, and can just classify
             self.longestSurviving
-        except NameError: #nope: need to find the longest surviving classifier
+        except AttributeError: #nope: need to find the longest surviving classifier
             (wp1,wp2) = self.w[0]
         
             #initialize longest weight vector
@@ -78,13 +80,13 @@ class Perceptron:
             self.longestSurviving = (wl1,wl2)
         #classify using our longest surviving classifier from training
         (w1,w2) = self.longestSurviving
-        return cmp((w1*x1+w2*x2),0)
+        return signish(w1*x1+w2*x2)
     
     def votedHypothesisClassify(self, x1, x2):
         """
         return the hypothesis with the most votes in our weight vector
         """
-        return ord(sum([ord((w1*x1+w2*x2),0) for (w1,w2) in self.w]),0)
+        return signish(sum([signish(w1*x1+w2*x2) for (w1,w2) in self.w]))
     
     def last50VotesClassify(self, x1, x2):
         """
@@ -94,9 +96,9 @@ class Perceptron:
         """
         try:
             self.last50
-        except NameError:
+        except AttributeError:
             self.last50 = self.w[-50:]
-        return ord(sum([ord((w1*x1+w2*x2),0) for (w1,w2) in self.last50]),0)
+        return signish(sum([signish(w1*x1+w2*x2) for (w1,w2) in self.last50]))
 
 
 if __name__ == '__main__':
@@ -107,8 +109,13 @@ if __name__ == '__main__':
     options = [
         make_option("--no-test", "-t", action="store_false", default=True, dest="should_test",
             help="Do not print predictions for test data."),
+        make_option("--sample", "-S", type=int, default=0, dest="num_samples",
+            help="Do not iterate over the points."
+                +" Instead sample NUM_SAMPLES training points randomly."
+                +" Overridden by the the -c option."),
         make_option("--no-shuffle", "-s", action="store_false", default=True, dest="should_shuffle",
-            help="Don't shuffle data between successive training loops."),
+            help="Don't shuffle data between successive training loops."
+                +" Overridden by the -S option when the -c option is missing."),
         make_option("--log", "-L", dest="log_file", default='pa.log',
             help="Log filename (default: 'pa.log')"),
         make_option("--rule", '-r', dest="rule", default='last',
@@ -173,21 +180,34 @@ if __name__ == '__main__':
     trainLog = open(opt.log_file, 'w')
     trainLog.write("#x1\tx2\tlabel\tpred\n")
     mistakes = 0
+    predictions = 0
     made_mistake = False
     i = 0
     if not opt.want_consistent:
-        for i in range(trainItter):
-            made_mistake = False
-            if opt.should_shuffle and i > 0: #shuffle after first iteration through the data
-                random.shuffle(trainData)
-            for (x1,x2,label) in trainData:
+        if opt.num_samples > 0:
+            while (i < opt.num_samples):
+                (x1,x2,label) = random.choice(trainData)
                 pred = perceptron.train(x1, x2, label)
+                predictions += 1
                 if label != pred:
                     mistakes += 1
                     made_mistake = True
                 trainLog.write("%.3f\t%.3f\t%d\t%d\n" % (x1,x2,label,pred))
-            if not made_mistake:
-                break
+                i += 1
+        else:
+            for i in range(trainItter):
+                made_mistake = False
+                if opt.should_shuffle and i > 0: #shuffle after first iteration through the data
+                    random.shuffle(trainData)
+                for (x1,x2,label) in trainData:
+                    pred = perceptron.train(x1, x2, label)
+                    predictions += 1
+                    if label != pred:
+                        mistakes += 1
+                        made_mistake = True
+                    trainLog.write("%.3f\t%.3f\t%d\t%d\n" % (x1,x2,label,pred))
+                if not made_mistake:
+                    break
     else:
         while(1):
             made_mistake = False
@@ -195,6 +215,7 @@ if __name__ == '__main__':
                 random.shuffle(trainData)
             for (x1,x2,label) in trainData:
                 pred = perceptron.train(x1, x2, label)
+                predictions += 1
                 if label != pred:
                     mistakes += 1
                     made_mistake = True
@@ -203,10 +224,14 @@ if __name__ == '__main__':
                 break
             i += 1
 
-    # Write a training summary to stdout as a comment.
-    print("#%7s%10s%12s%12s" % ('ITER', 'MISTAKES', 'PREDICTIONS', 'CONSISTENT'))
-    print("#%7d%10d%12d%12s" %
-            ((i + 1), mistakes, ((i + 1)*len(trainData)), ('YES' if not made_mistake else 'NO')))
+    if opt.want_consistent or not opt.num_samples > 0:
+        # Write a training summary to stdout as a comment.
+        print("#%7s%10s%12s%12s" % ('ITER', 'MISTAKES', 'PREDICTIONS', 'CONSISTENT'))
+        print("#%7d%10d%12d%12s" %
+                ((i + 1), mistakes, predictions, ('YES' if not made_mistake else 'NO')))
+    else:
+        print("#%7s%10s" % ('SAMPLES', 'MISTAKES'))
+        print("#%7d%10d" % (predictions, mistakes,))
             
     if not opt.should_test: exit(0)
     
