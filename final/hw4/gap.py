@@ -28,6 +28,7 @@ try:
     fh = sys.stdin if setfile is None else open(setfile, 'r')
 except:
     sys.stderr.write("Can't read file %s" % str(setfile))
+    exit(1)
 
 if opt.verbose: print "Positive:"
 for ln in fh.readlines():

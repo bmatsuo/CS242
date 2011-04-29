@@ -13,12 +13,13 @@ Experiment 1:
     Use the Perceptron algorithm to find a consistent hypothesis (dont
     shuffle the training data for repeatable results).
 
-        ./Perceptron.py -cs train.txt train.txt > experiment1.results
+        ./Perceptron.py -cts train.txt train.txt \
+            | head -n 2 \
+            | tail -n 1 \
+            | awk '{print $2 " " $3}'
 
-    experiment1.results will contain, on the first few lines, the number
-    of iterations performed until a consistent hypothesis was found and
-    the total number of mistakes made in the process. The file 'pa.log'
-    will contain the Perceptron's training log.
+    This will print the number of iterations made over the training set
+    and the total number of mistakes made on a single line.
 
 Experiment 2:
 

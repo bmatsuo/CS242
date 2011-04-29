@@ -105,6 +105,8 @@ if __name__ == '__main__':
     from optparse import OptionParser, make_option
 
     options = [
+        make_option("--no-test", "-t", action="store_false", default=True, dest="should_test",
+            help="Do not print predictions for test data."),
         make_option("--no-shuffle", "-s", action="store_false", default=True, dest="should_shuffle",
             help="Don't shuffle data between successive training loops."),
         make_option("--log", "-L", dest="log_file", default='pa.log',
@@ -123,6 +125,9 @@ if __name__ == '__main__':
     (opt, args) = p.parse_args()
     
     if len(args) < 1:
+        sys.stderr.write("%s\nUse the -h option for more info." % p.usage)
+        sys.exit(1)
+    if len(args) < 2 and opt.should_test:
         sys.stderr.write("%s\nUse the -h option for more info." % p.usage)
         sys.exit(1)
 
@@ -150,18 +155,19 @@ if __name__ == '__main__':
         return
 
     trainData = []
-    train = open(args[1],'r')
+    train = open(args[0],'r')
     for line in train:
         example = _parse_line(line)
         if not example is None: trainData.append(example)
     train.close()
 
     testData = []
-    test = open(args[1],'r')
-    for line in test:
-        example = _parse_line(line)
-        if not example is None: testData.append(example)
-    test.close()
+    if opt.should_test:
+        test = open(args[1],'r')
+        for line in test:
+            example = _parse_line(line)
+            if not example is None: testData.append(example)
+        test.close()
     
     #train the perceptron on the set of data
     trainLog = open(opt.log_file, 'w')
@@ -197,12 +203,12 @@ if __name__ == '__main__':
                 break
             i += 1
 
-    print("TRAINING SUMMARY:")
-    print("Iterations: %d." % (i + 1))
-    print("Total mistakes: %d" % mistakes)
-    print("Total predictions: %d" % ((i + 1)*len(trainData)))
-    print("Consistent hypothesis: %s" % ('YES' if not made_mistake else 'NO'))
+    # Write a training summary to stdout as a comment.
+    print("#%7s%10s%12s%12s" % ('ITER', 'MISTAKES', 'PREDICTIONS', 'CONSISTENT'))
+    print("#%7d%10d%12d%12s" %
+            ((i + 1), mistakes, ((i + 1)*len(trainData)), ('YES' if not made_mistake else 'NO')))
             
+    if not opt.should_test: exit(0)
     
     #run tests, to standard out write the following
     print("#x1\tx2\tlabel\tpred")
