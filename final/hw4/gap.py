@@ -53,13 +53,12 @@ if len(pos_points) < 2:
 #if max x >= 0, min y else max y gives bottom
 #if max y >= 0, min x, else max x gives top
 
-def first_and_last(alist):
-    first = alist[0]
-    last = alist[-1]
-    return (first,last)
 
-(minx,maxx) = first_and_last(sorted(pos_points,key=itemgetter(0)))
-(miny,maxy) = first_and_last(sorted(pos_points,key=itemgetter(1)))
+minx = min(pos_points,key=itemgetter(0))
+maxx = max(pos_points,key=itemgetter(0))
+miny = min(pos_points,key=itemgetter(1))
+maxy = max(pos_points,key=itemgetter(1))
+
 
 #get point closest to bottom:
 if maxx[0] >= 0:
