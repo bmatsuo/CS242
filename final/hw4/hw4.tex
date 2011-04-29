@@ -31,6 +31,38 @@
 \line
 \leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
 \begin{enumerate}
-\item \textbf{Logistic regression:}
+\item \textbf{Back-propagation:}
+
+\item \textbf{Decision Tree:}
+
+\item \textbf{Perceptrion Algorithm:}
+
+\begin{enumerate}
+\item \textit{Experiment 1:}
+
+There is a definite relationship between both the number of gaps and the number of mistakes made. Figure~\ref{fig:gvm} clearly shows that the number of mistakes are upper bounded by $\frac{1}{\text{Gaps}^2}$, and decrease as the Gap size increases. Figure~\ref{fig:mvi} shows that the number of iterations required to reach a consistent hypothesis and the number of mistakes eventually made are highly correlated with eachother (Pearson's correlation coefficient of $0.9973$) so examining one variable against the Gap is equivalent to the other.
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.7]{ex1_gap_vs_Mistakes}
+\caption{Comparing gaps to the total number of mistakes shows that as the gap increases in size, fewer mistakes are made. Interestingly, all of our points are well within the theoretical upper bound of the number of mistakes made is $\frac{1}{\text{Gap}^2}$}
+\label{fig:gvm}
+\end{center}
+
+\end{figure}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.7]{ex1_iteration_mistakes}
+\caption{Iterations and Mistakes are highly correlated with a Pearson's correlation coefficient of $0.9973$. Thus you are pretty safe just comparing one of those two values to the Gap as we did in Figure~\ref{fig:gvm}}
+\label{fig:mvi}
+\end{center}
+\end{figure}
+
+
+\item \textit{Experiment 2:}
+
+
+\end{enumerate}
 \end{enumerate}
 \end{document}
