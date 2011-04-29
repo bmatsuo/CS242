@@ -32,7 +32,8 @@
 \leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
 \begin{enumerate}
 \item \textbf{Neural Networks:}
-Here is the formula for the output at node 5 produced by the network from Figure 1 in the back-propagation handout.
+Here is the formula for the output at node 5 produced by the network from Figure 1 in the back-propagation handout. Note that the handout hints that the 0 node is often used to supply a learnable bias to the higher level nodes by having a constant z output value of 1. We used this definition of the 0 node.
+
 \[
 \sigma\left(w_{5,0}+w_{5,3}\sigma\left(w_{3,0}+\sum_{i=1}^2w_{3,i}z_i\right)+w_{5,4}\sigma\left(w_{4,0}+\sum_{i=1}^2w_{4,i}z_i\right) \right)
 \]
