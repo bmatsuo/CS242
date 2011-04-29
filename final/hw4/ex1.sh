@@ -16,5 +16,5 @@ for i in {1..100}; do
             | head -n 2 \
             | tail -n 1 \
             | awk '{print $2 " " $3}'`
-    echo "$train $gap $summ"
+    echo "$train $gap $summ" >> "$datadir/ex1.out"
 done
