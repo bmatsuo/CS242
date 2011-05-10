@@ -19,14 +19,14 @@ def pr_correct(n,p):
     except:
         raise Exception('pr_correct requires integer or a list of integers')
 
-t = arange(50)
-pyplot.plot(t, pr_correct(t,0.5), '.', label='$p = 0.5$')
-#pyplot.plot(t, pr_correct(t,0.5), '.')
+t = arange(1,50)
+pyplot.plot(t, pr_correct(t,0.5), 'g.', label='$p = 0.5$')
+#pyplot.plot(t, pr_correct(t,0.5), 'g.')
 
-pyplot.plot(t, pr_correct(t,0.6), '.', label='$p = 0.6$')
+pyplot.plot(t, pr_correct(t,0.6), 'b.', label='$p = 0.6$')
 #pyplot.plot(t, pr_correct(t,0.6), 'b.')
 
-pyplot.plot(t, pr_correct(t,0.8), '.', label='$p = 0.7$')
+pyplot.plot(t, pr_correct(t,0.8), 'r.', label='$p = 0.7$')
 #pyplot.plot(t, pr_correct(t,0.8), 'r.')
 
 pyplot.ylabel('Pr(Correct Majority)')
