@@ -30,14 +30,92 @@
 \title{Homework 7: CMPS 242}
 \line
 \leftright{\today}{Bryan Matsuo (bmatsuo@soe.ucsc.edu) \& John St. John (jstjohn@soe.ucsc.edu)} %-- left and right positions in the header
+
+
+%%%%
+% First Problem
 \begin{enumerate}
 \item \textbf{Weighted Majority Algorithm:}
 
+Given the example in the notes, the bound on the number of mistakes $m$ is:
+\[
+m <  \frac{\ln(n) + k\ln\left(\frac{1}{b}\right)}{\ln\left( \frac{2}{1+b}  \right)}
+\]
 
+Now we'll solve the for the case when there are $j$ $E_i$'s that each make $k$ mistakes:
+
+\begin{itemize}
+\item  Total weight $W = \sum_i w_i$
+\item On master mistake, at least half of the $i$ instances made a mistake so: \[W_{\text{new}} \leq W_{\text{old}} \left( \frac{1+b}{2}\right) \]
+\item If $m$ master mistakes then: 
+
+\begin{eqnarray*}
+W_{m+1} &\leq& W_m \left( \frac{1+b}{2}\right)\\
+W_0 &=& n \\
+W_m &=& n\left( \frac{1+b}{2}\right)^m \text{for } m > 0 
+\end{eqnarray*}
+
+\item If $j$ $E_i$s make $k$ mistakes, then $w_i = jb^k < W$.
+\item So \[jb^k < n\left[ \frac{1+b}{2} \right]^m\]
+
+Solve for $m$:
+\[
+m <  \frac{\ln(n) + k\ln\left(\frac{1}{b}\right) - \ln(j)}{\ln\left( \frac{2}{1+b}  \right)}
+\]
+
+
+\end{itemize}
+
+
+
+
+%%%%
+% Second Problem
 \item \textbf{Graphical Model:}
 %In Figure 16.4 calculate P(R | W), P(R | W,S), and P(R | W,∼S).
 \begin{enumerate}
-\item \( \Pr(R\mid W) \)
+\item $\Pr(R\mid W)$
+
+\begin{eqnarray*}
+	\Pr(R\mid W)  &=& \frac{\Pr(W\mid R) \Pr(R)}{\Pr(W)} \\
+	\Pr(W) &=& \sum_{R,S} \Pr(W,R,S) \\
+	 	&=& \sum_{R,S} \Pr(W\mid R,S) \Pr(R) \Pr(S) \\
+		&=&0.48\\
+	\Pr(W\mid R) &=& \sum_S \Pr(W,S\mid R) \\
+		&=& \sum_S \Pr(W\mid R,S) \Pr(S)\\
+		&=& 0.91 \\
+	\Pr(R) &=& 0.4 \\
+	\Pr(R\mid W)  &=& \frac{0.4 *0.91 }{0.628} \\
+		&=& 0.75
+\end{eqnarray*}
+
+
+\item $\Pr(R \mid W,S)$
+\begin{eqnarray*}
+	\Pr(R \mid W,S)  &=& \frac{\Pr(W\mid R, S) P(R\mid S}{P(W\mid S)} \\
+		&=& \frac{\Pr(W\mid R, S) P(R)}{P(W\mid S)} \\
+	\Pr(W\mid R, S) &=& 0.95 \\
+	\Pr(W\mid S) &=& \sum_R \Pr(W,R \mid S) \\
+		&=& \Pr(W\mid R,S)\Pr(R) + \Pr(W\mid \lnot R,S) \Pr(\lnot R) \\
+		&=& 0.92 \\
+	\Pr(R \mid W,S)   &=& \frac{0.95 * 0.4}{0.92}\\
+		&=& 0.413
+\end{eqnarray*}
+
+\item $\Pr(R \mid W, \lnot S)$
+
+\begin{eqnarray*}
+	\Pr(R \mid W,\lnot S)  &=& \frac{\Pr(W\mid R, \lnot S) P(R\mid \lnot S}{P(W\mid \lnot S)} \\
+		&=& \frac{\Pr(W\mid R, \lnot S) P(R)}{P(W\mid \lnot S)} \\
+	\Pr(W\mid R, \lnot S) &=& 0.90 \\
+	\Pr(W\mid \lnot S) &=& \sum_R \Pr(W,R \mid \lnot S) \\
+		&=& \Pr(W\mid R, \lnot S)\Pr(R) + \Pr(W\mid \lnot R, \lnot S) \Pr(\lnot R) \\
+		&=& 0.42  \\
+	\Pr(R \mid W, \lnot S)   &=& \frac{0.90 * 0.4}{0.42}\\
+		&=& 0.857
+\end{eqnarray*}
+
+
 \end{enumerate}
 
 \end{enumerate}
